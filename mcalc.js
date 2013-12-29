@@ -23,34 +23,43 @@ var mcalc = (function(mcalc) {
                 return ["C"];
             case mcalc.key.Cs:
             case mcalc.key.Db:
-                return ["C#", "Db"];
+                return ["C#", "D" + mcalc.symbol.Flat];
             case mcalc.key.D:
                 return ["D"];
             case mcalc.key.Ds:
             case mcalc.key.Eb:
-                return ["D#", "Eb"];
+                return ["D#", "E" + mcalc.symbol.Flat];
             case mcalc.key.E:
                 return ["E"];
             case mcalc.key.F:
                 return ["F"];
             case mcalc.key.Fs:
             case mcalc.key.Gb:
-                return ["F#", "Gb"];
+                return ["F#", "G" + mcalc.symbol.Flat];
             case mcalc.key.G:
                 return ["G"];
             case mcalc.key.Gs:
             case mcalc.key.Ab:
-                return ["G#", "Ab"];
+                return ["G#", "A" + mcalc.symbol.Flat];
             case mcalc.key.A:
                 return ["A"];
             case mcalc.key.As:
             case mcalc.key.Bb:
-                return ["A#", "Bb"];
+                return ["A#", "B" + mcalc.symbol.Flat];
             case mcalc.key.B:
                 return ["B"];
             default:
                 return null;
         }
+    };
+
+    /**
+     * Symbol constants
+     * @readonly
+     * @enum
+     */
+    mcalc.symbol = {
+        Flat: "\u266D"
     };
 
     /** 
@@ -120,7 +129,17 @@ var mcalc = (function(mcalc) {
         /** augmented */
         Aug: "Aug",
         /** diminished */
-        Dim: "Dim"
+        Dim: "Dim",
+        /** major 7th */
+        Major7: "Major7",
+        /** minor seventh */
+        Minor7: "Minor7",
+        /** dominant seventh */
+        Dom7: "Dom7",
+        /** half-diminished seventh (minor 7, flat 5) */
+        Minor7Flat5: "Minor7Flat5",
+        /** fully-diminished seventh */
+        Dim7: "Dim7"
     };
 
     /** 
@@ -139,7 +158,7 @@ var mcalc = (function(mcalc) {
 
         if (s.length > 1)
         {
-            return s[0] + "(" + s[1] + ")";
+            return s[0] + " (" + s[1] + ")";
         }
 
         return s[0];
@@ -268,6 +287,31 @@ var mcalc = (function(mcalc) {
             // v flat (diminished fifth)
             chord.push(normKey(scale[4] - 1));
         }
+        else if (chordType == mcalc.chord.Major7)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.Major);
+            chord.push(scale[6]);
+        }
+        else if (chordType == mcalc.chord.Minor7)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.Minor);
+            chord.push(normKey(scale[6] - 1));
+        }
+        else if (chordType == mcalc.chord.Dom7)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.Major);
+            chord.push(normKey(scale[6] - 1));
+        }
+        else if (chordType == mcalc.chord.Minor7Flat5)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.Minor);
+            chord.push(normKey(scale[6] - 1));
+        }
+        else if (chordType == mcalc.chord.Dim7)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.Minor);
+            chord.push(normKey(scale[6] - 2));
+        }
         else
         {
             throw "unknown chord type";
@@ -282,12 +326,17 @@ var mcalc = (function(mcalc) {
      @param {string} scaleType - @see mcalc.scale
      @returns {mcalc.Chord[]}
      */
-    mcalc.computeDiatonicChords = function(key, scaleType)
+    mcalc.computeDiatonicChords = function(key, scaleType, sevenths)
     {
+        if (sevenths === undefined)
+        {
+            sevenths = false;
+        }
+
         var scale = mcalc.computeScale(key, scaleType);
         var chords = [];
 
-        if (scaleType == mcalc.scale.Major)
+        if (scaleType == mcalc.scale.Major && !sevenths)
         {
             // I
             chords.push(new mcalc.Chord(scale[0], mcalc.chord.Major));
@@ -304,9 +353,26 @@ var mcalc = (function(mcalc) {
             // vii (dim)
             chords.push(new mcalc.Chord(scale[6], mcalc.chord.Dim));
         }
+        else if (scaleType == mcalc.scale.Major && sevenths)
+        {
+            // I
+            chords.push(new mcalc.Chord(scale[0], mcalc.chord.Major7));
+            // ii
+            chords.push(new mcalc.Chord(scale[1], mcalc.chord.Minor7));
+            // iii
+            chords.push(new mcalc.Chord(scale[2], mcalc.chord.Minor7));
+            // IV
+            chords.push(new mcalc.Chord(scale[3], mcalc.chord.Major7));
+            // V
+            chords.push(new mcalc.Chord(scale[4], mcalc.chord.Dom7));
+            // vi
+            chords.push(new mcalc.Chord(scale[5], mcalc.chord.Minor7));
+            // vii (dim)
+            chords.push(new mcalc.Chord(scale[6], mcalc.chord.Minor7Flat5));
+        }
         else
         {
-            throw "unsupported scale type";
+            throw "unsupported arguments";
         }
 
         return chords;
@@ -344,6 +410,26 @@ var mcalc = (function(mcalc) {
             {
                 return "dim";
             }
+            else if (self.chordType == mcalc.chord.Major7)
+            {
+                return "maj7";
+            }
+            else if (self.chordType == mcalc.chord.Minor7)
+            {
+                return "m7";
+            }
+            else if (self.chordType == mcalc.chord.Dom7)
+            {
+                return "7";
+            }
+            else if (self.chordType == mcalc.chord.Minor7Flat5)
+            {
+                return "m7" + mcalc.symbol.Flat + "5";
+            }
+            else if (self.chordType == mcalc.chord.Dim7)
+            {
+                return "dim7";
+            }
 
             return null;
         };
@@ -374,7 +460,7 @@ var mcalc = (function(mcalc) {
 
             if (s.length > 1)
             {
-                return toString_(s[0]) + "(" + toString_(s[1]) + ")";
+                return toString_(s[0]) + " (" + toString_(s[1]) + ")";
             }
 
             return toString_(s[0]);

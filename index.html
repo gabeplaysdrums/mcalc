@@ -52,6 +52,10 @@
     background-color: lightyellow;
   }
 
+  #chords td {
+    text-align: center;
+  }
+
   </style>
 </head>
 <body>
@@ -60,22 +64,22 @@
       Key: 
       <select id="key" name="key">
         <option value="C">C</option>
-        <option value="Cs">C#/Db</option>
+        <option value="Cs">C#/D&#x266D;</option>
         <option value="D">D</option>
-        <option value="Ds">D#/Eb</option>
+        <option value="Ds">D#/E&#x266D;</option>
         <option value="E">E</option>
         <option value="F">F</option>
-        <option value="Fs">F#/Gb</option>
+        <option value="Fs">F#/G&#x266D;</option>
         <option value="G">G</option>
-        <option value="Gs">G#/Ab</option>
+        <option value="Gs">G#/A&#x266D;</option>
         <option value="A">A</option>
-        <option value="As">A#/Bb</option>
+        <option value="As">A#/B&#x266D;</option>
         <option value="B">B</option>
       </select>
     </p>
   </form>
   <p>
-    <table border="1">
+    <table id="tones" border="1">
       <tr>
         <th>Major Scale</th>
         <td id="scale-major"></td>
@@ -96,10 +100,30 @@
         <th><span class="name"></span></th>
         <td class="tones"></td>
       </tr>
+      <tr id="chord-major7">
+        <th><span class="name"></span></th>
+        <td class="tones"></td>
+      </tr>
+      <tr id="chord-minor7">
+        <th><span class="name"></span></th>
+        <td class="tones"></td>
+      </tr>
+      <tr id="chord-dom7">
+        <th><span class="name"></span></th>
+        <td class="tones"></td>
+      </tr>
+      <tr id="chord-minor7flat5">
+        <th><span class="name"></span></th>
+        <td class="tones"></td>
+      </tr>
+      <tr id="chord-dim7">
+        <th><span class="name"></span></th>
+        <td class="tones"></td>
+      </tr>
     </table>
   </p>
   <p>
-    <table border="1">
+    <table id="chords" border="1">
       <tr>
         <th>Chords</th>
         <th class="highlight">I</th>
@@ -112,6 +136,16 @@
       </tr>
       <tr id="chords-diatonic">
         <td>Diatonic</td>
+        <td class="highlight"></td>
+        <td></td>
+        <td></td>
+        <td class="highlight"></td>
+        <td class="highlight"></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr id="chords-diatonic7">
+        <td>Diatonic 7th</td>
         <td class="highlight"></td>
         <td></td>
         <td></td>

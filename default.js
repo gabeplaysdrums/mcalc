@@ -86,8 +86,9 @@
         }
     }
 
-    function appendTones($row, chord)
+    function appendChordTones($row, key, chordType)
     {
+        var chord = new mcalc.Chord(key, chordType);
         var tones = chord.tones();
         var $cell = $row.find(".tones");
         
@@ -101,27 +102,48 @@
 
     {
         // major chord
-        appendTones($("#chord-major"), new mcalc.Chord(key, mcalc.chord.Major));
+        appendChordTones($("#chord-major"), key, mcalc.chord.Major);
 
         // minor chord
-        appendTones($("#chord-minor"), new mcalc.Chord(key, mcalc.chord.Minor));
+        appendChordTones($("#chord-minor"), key, mcalc.chord.Minor);
 
         // diminished chord
-        appendTones($("#chord-dim"), new mcalc.Chord(key, mcalc.chord.Dim));
+        appendChordTones($("#chord-dim"), key, mcalc.chord.Dim);
 
         // augmented chord
-        appendTones($("#chord-aug"), new mcalc.Chord(key, mcalc.chord.Aug));
+        appendChordTones($("#chord-aug"), key, mcalc.chord.Aug);
+
+        // major 7th chord
+        appendChordTones($("#chord-major7"), key, mcalc.chord.Major7);
+
+        // minor 7th chord
+        appendChordTones($("#chord-minor7"), key, mcalc.chord.Minor7);
+
+        // dominant 7th chord
+        appendChordTones($("#chord-dom7"), key, mcalc.chord.Dom7);
+
+        // half diminished 7th chord
+        appendChordTones($("#chord-minor7flat5"), key, mcalc.chord.Minor7Flat5);
+
+        // fully diminished 7th chord
+        appendChordTones($("#chord-dim7"), key, mcalc.chord.Dim7);
+    }
+
+    function appendDiatonicChords($row, key, scaleType, sevenths)
+    {
+        var chords = mcalc.computeDiatonicChords(key, scaleType, sevenths);
+
+        for (var i=0; i < chords.length; i++)
+        {
+            var $cell = $($row.find("td")[i + 1]);
+            appendKeyLink(chords[i].key, $cell, chords[i].toString());
+        }
     }
 
     // diatonic chords
     {
-        var chords = mcalc.computeDiatonicChords(key, mcalc.scale.Major);
-
-        for (var i=0; i < chords.length; i++)
-        {
-            var $cell = $($("#chords-diatonic td")[i + 1]);
-            appendKeyLink(chords[i].key, $cell, chords[i].toString());
-        }
+        appendDiatonicChords($("#chords-diatonic"), key, mcalc.scale.Major, false);
+        appendDiatonicChords($("#chords-diatonic7"), key, mcalc.scale.Major, true);
     }
 
 })();
