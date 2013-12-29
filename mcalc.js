@@ -15,7 +15,11 @@ var mcalc = (function(mcalc) {
         return key;
     }
 
-    // keys (tones)
+    /** 
+     * Keys (tones) enum 
+     * @readonly
+     * @enum {number}
+     */
     mcalc.key = {
         "C":  0,
         "Cs": 1,
@@ -36,6 +40,11 @@ var mcalc = (function(mcalc) {
         "B":  11
     };
 
+    /** 
+     * List of all keys 
+     * @readonly
+     * @type {number[]}
+     */
     mcalc.keys = [
         mcalc.key.C,
         mcalc.key.Cs,
@@ -51,11 +60,20 @@ var mcalc = (function(mcalc) {
         mcalc.key.B
     ];
 
-    // scale quality
+    /**
+     * Scale quality enum 
+     * @readonly
+     * @enum {string}
+     */
     mcalc.scale = {
         Major: "Major"
     };
 
+    /** 
+     * Convert key value to string
+     * @param {number} key - @see mcalc.key
+     * @returns string
+     */
     mcalc.keyToString = function(key)
     {
         switch (key)
@@ -94,6 +112,12 @@ var mcalc = (function(mcalc) {
         }
     };
 
+    /**
+     * Compute a scale in any key
+     * @param {number} key - the tonic (root) of the key (@see mcalc.key)
+     * @param {string} scaleType - the scale type (@see mcalc.scale)
+     * @returns {number[]} list of tones in the scale (@see mcalc.key)
+     */
     mcalc.computeScale = function(key, scaleType)
     {
         var scale = [];
@@ -139,6 +163,11 @@ var mcalc = (function(mcalc) {
         return scale;
     };
 
+    /**
+     * Convert an array of keys (tones) to a human-readable string
+     * @param {number[]} keys - array of tones (@see mcalc.key)
+     * @returns {string}
+     */
     mcalc.keysToString = function(keys)
     {
         var temp = [];
