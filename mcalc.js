@@ -69,6 +69,22 @@ var mcalc = (function(mcalc) {
         Major: "Major"
     };
 
+    /**
+     * Chord quality enum
+     * @readonly
+     * @enum {string}
+     */
+    mcalc.chord = {
+        /** major */
+        Major: "Major",
+        /** minor */
+        Minor: "Minor",
+        /** augmented */
+        Aug: "Aug",
+        /** diminished */
+        Dim: "Dim"
+    };
+
     /** 
      * Convert key value to string
      * @param {number} key - @see mcalc.key
@@ -178,6 +194,69 @@ var mcalc = (function(mcalc) {
         }
 
         return temp.join(" ");
+    };
+
+    /**
+     * Compute a chord in any key
+     * @param {number} key - the root of the chord (@see mcalc.key)
+     * @param {string} chordType - the chord type (@see mcalc.chord)
+     * @returns {string[]} tones in the chord (@see mcalc.key)
+     */
+    mcalc.computeChord = function(key, chordType)
+    {
+        var chord = [];
+        var scale = mcalc.computeScale(key, mcalc.scale.Major);
+
+        if (chordType == mcalc.chord.Major)
+        {
+            // i
+            chord.push(scale[0]);
+
+            // iii (major third)
+            chord.push(scale[2]);
+
+            // v
+            chord.push(scale[4]);
+        }
+        else if (chordType == mcalc.chord.Minor)
+        {
+            // i
+            chord.push(scale[0]);
+
+            // iii flat (minor third)
+            chord.push(normKey(scale[2] - 1));
+
+            // v
+            chord.push(scale[4]);
+        }
+        else if (chordType == mcalc.chord.Aug)
+        {
+            // i
+            chord.push(scale[0]);
+
+            // iii (major third)
+            chord.push(scale[2]);
+
+            // v sharp (augmented fifth)
+            chord.push(normKey(scale[4] + 1));
+        }
+        else if (chordType == mcalc.chord.Dim)
+        {
+            // i
+            chord.push(scale[0]);
+
+            // iii flat (minor third)
+            chord.push(normKey(scale[2] - 1));
+
+            // v flat (diminished fifth)
+            chord.push(normKey(scale[4] - 1));
+        }
+        else
+        {
+            throw "unknown chord type";
+        }
+
+        return chord;
     };
 
     return mcalc;
