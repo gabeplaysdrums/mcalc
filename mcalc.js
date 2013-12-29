@@ -15,6 +15,44 @@ var mcalc = (function(mcalc) {
         return key;
     }
 
+    function keyToString_(key)
+    {
+        switch (key)
+        {
+            case mcalc.key.C:
+                return ["C"];
+            case mcalc.key.Cs:
+            case mcalc.key.Db:
+                return ["C#", "Db"];
+            case mcalc.key.D:
+                return ["D"];
+            case mcalc.key.Ds:
+            case mcalc.key.Eb:
+                return ["D#", "Eb"];
+            case mcalc.key.E:
+                return ["E"];
+            case mcalc.key.F:
+                return ["F"];
+            case mcalc.key.Fs:
+            case mcalc.key.Gb:
+                return ["F#", "Gb"];
+            case mcalc.key.G:
+                return ["G"];
+            case mcalc.key.Gs:
+            case mcalc.key.Ab:
+                return ["G#", "Ab"];
+            case mcalc.key.A:
+                return ["A"];
+            case mcalc.key.As:
+            case mcalc.key.Bb:
+                return ["A#", "Bb"];
+            case mcalc.key.B:
+                return ["B"];
+            default:
+                return null;
+        }
+    };
+
     /** 
      * Keys (tones) enum 
      * @readonly
@@ -92,40 +130,19 @@ var mcalc = (function(mcalc) {
      */
     mcalc.keyToString = function(key)
     {
-        switch (key)
+        var s = keyToString_(key);
+
+        if (s == null || s.length < 1)
         {
-            case mcalc.key.C:
-                return "C";
-            case mcalc.key.Cs:
-            case mcalc.key.Db:
-                return "C#(Db)";
-            case mcalc.key.D:
-                return "D";
-            case mcalc.key.Ds:
-            case mcalc.key.Eb:
-                return "D#(Eb)";
-            case mcalc.key.E:
-                return "E";
-            case mcalc.key.F:
-                return "F";
-            case mcalc.key.Fs:
-            case mcalc.key.Gb:
-                return "F#(Gb)";
-            case mcalc.key.G:
-                return "G";
-            case mcalc.key.Gs:
-            case mcalc.key.Ab:
-                return "G#(Ab)";
-            case mcalc.key.A:
-                return "A";
-            case mcalc.key.As:
-            case mcalc.key.Bb:
-                return "A#(Bb)";
-            case mcalc.key.B:
-                return "B";
-            default:
-                return null;
+            return null;
         }
+
+        if (s.length > 1)
+        {
+            return s[0] + "(" + s[1] + ")";
+        }
+
+        return s[0];
     };
 
     /**
@@ -257,6 +274,84 @@ var mcalc = (function(mcalc) {
         }
 
         return chord;
+    };
+
+    /**
+     * Represents a chord
+     * @constructor
+     */
+    mcalc.Chord = function(key, chordType)
+    {
+        var self = this;
+        self.key = key;
+        self.chordType = chordType;
+
+        /**
+         * Get the "suffix" of the chord name (e.g. 'm', 'dim', 'maj7', etc.)
+         * @returns {string}
+         */
+        this.suffix = function()
+        {
+            if (self.chordType == mcalc.chord.Major)
+            {
+                return "";
+            }
+            else if (self.chordType == mcalc.chord.Minor)
+            {
+                return "m";
+            }
+            else if (self.chordType == mcalc.chord.Aug)
+            {
+                return "aug";
+            }
+            else if (self.chordType == mcalc.chord.Dim)
+            {
+                return "dim";
+            }
+
+            return null;
+        };
+
+        /**
+         * Get the chord name (e.g. 'Cm')
+         * @returns {string}
+         */
+        this.toString = function()
+        {
+            var s = keyToString_(self.key);
+            var suffix = this.suffix();
+
+            function toString_(s_)
+            {
+                if (suffix == null)
+                {
+                    return undefined;
+                }
+
+                return s_ + suffix;
+            }
+
+            if (s == null || s.length < 1)
+            {
+                return undefined;
+            }
+
+            if (s.length > 1)
+            {
+                return toString_(s[0]) + "(" + toString_(s[1]) + ")";
+            }
+
+            return toString_(s[0]);
+        };
+
+        /**
+         * Get the tones in the chord
+         * @returns {number[]} the tones in the chord (@see mcalc.key)
+         */
+        this.tones = function()
+        {
+            return mcalc.computeChord(this.key, this.chordType);
+        };
     };
 
     return mcalc;
