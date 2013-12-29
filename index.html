@@ -4,6 +4,9 @@
   <title>mcalc - the music calculator</title>
   <script src="mcalc.js"></script>
   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+  <script src="jquery.SparkPiano.js"></script>
+  <link rel="stylesheet" href="jquery.SparkPiano.css" />
   <style>
 
   html, body {
@@ -56,6 +59,11 @@
     text-align: center;
   }
 
+  .piano {
+    padding: 2px;
+    padding-bottom: 0;
+  }
+
   </style>
 </head>
 <body>
@@ -80,44 +88,54 @@
   </form>
   <p>
     <table id="tones" border="1">
-      <tr>
-        <th>Major Scale</th>
-        <td id="scale-major"></td>
+      <tr id="scale-major">
+        <th class="name">Major Scale</th>
+        <td class="piano"></td>
+        <td class="tones"></td>
       </tr>
       <tr id="chord-major">
         <th><span class="name"></span> (major)</th>
+        <td class="piano"></td>
         <td class="tones"></td>
       </tr>
       <tr id="chord-minor">
         <th><span class="name"></span></th>
+        <td class="piano"></td>
         <td class="tones"></td>
       </tr>
       <tr id="chord-dim">
         <th><span class="name"></span></th>
+        <td class="piano"></td>
         <td class="tones"></td>
       </tr>
       <tr id="chord-aug">
         <th><span class="name"></span></th>
+        <td class="piano"></td>
         <td class="tones"></td>
       </tr>
       <tr id="chord-major7">
         <th><span class="name"></span></th>
+        <td class="piano"></td>
         <td class="tones"></td>
       </tr>
       <tr id="chord-minor7">
         <th><span class="name"></span></th>
+        <td class="piano"></td>
         <td class="tones"></td>
       </tr>
       <tr id="chord-dom7">
         <th><span class="name"></span></th>
+        <td class="piano"></td>
         <td class="tones"></td>
       </tr>
       <tr id="chord-minor7flat5">
         <th><span class="name"></span></th>
+        <td class="piano"></td>
         <td class="tones"></td>
       </tr>
       <tr id="chord-dim7">
         <th><span class="name"></span></th>
+        <td class="piano"></td>
         <td class="tones"></td>
       </tr>
     </table>
@@ -136,25 +154,28 @@
       </tr>
       <tr id="chords-diatonic">
         <td>Diatonic</td>
-        <td class="highlight"></td>
-        <td></td>
-        <td></td>
-        <td class="highlight"></td>
-        <td class="highlight"></td>
-        <td></td>
-        <td></td>
+        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td><div class="chord"></div><div class="piano"></div></td>
+        <td><div class="chord"></div><div class="piano"></div></td>
+        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td><div class="chord"></div><div class="piano"></div></td>
+        <td><div class="chord"></div><div class="piano"></div></td>
       </tr>
       <tr id="chords-diatonic7">
         <td>Diatonic 7th</td>
-        <td class="highlight"></td>
-        <td></td>
-        <td></td>
-        <td class="highlight"></td>
-        <td class="highlight"></td>
-        <td></td>
-        <td></td>
+        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td><div class="chord"></div><div class="piano"></div></td>
+        <td><div class="chord"></div><div class="piano"></div></td>
+        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td><div class="chord"></div><div class="piano"></div></td>
+        <td><div class="chord"></div><div class="piano"></div></td>
       </tr>
     </table>
+  </p>
+  <p>
+    <span id="piano"></span>
   </p>
   <script src="default.js"></script>
 </body>

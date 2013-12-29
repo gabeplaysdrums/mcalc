@@ -1,0 +1,36 @@
+table.sparkpiano {
+    border: 1px solid lightgray; 
+    display: inline-block;
+}
+
+table.sparkpiano td {
+    padding: 0;
+    margin: 0;
+}
+
+.sparkpiano-top td { 
+    width: 4.5px; 
+    height: 20px;
+}
+.sparkpiano-top td.sparkpiano-white { 
+    background-color: white;
+}
+.sparkpiano-top td.sparkpiano-black {
+    background-color: black;
+    border-bottom: 1px solid lightgray;
+}
+.sparkpiano-top td.sparkpiano-black.sparkpiano-left {
+    border-left: 1px solid lightgray;
+}
+.sparkpiano-top td.sparkpiano-black.sparkpiano-right {
+    border-right: 1px solid lightgray;
+}
+.sparkpiano-bottom { 
+    background-color: white; 
+    height: 12px;
+}
+.sparkpiano-bottom td.sparkpiano-left, .sparkpiano-top td.sparkpiano-white.sparkpiano-left {
+    border-left: 1px solid lightgray; 
+}
+.sparkpiano-bottom td.sparkpiano-right, .sparkpiano-top td.sparkpiano-white.sparkpiano-right {
+}

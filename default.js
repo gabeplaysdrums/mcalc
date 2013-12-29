@@ -76,28 +76,29 @@
 
     var key = formValueToKey($("#key").val());
 
-    // major scale
+    function appendTones($row, tones, root)
     {
-        var scale = mcalc.computeScale(key, mcalc.scale.Major);
-
-        for (var i=0; i < scale.length; i++)
-        {
-            appendKeyLink(scale[i], $("#scale-major"));
-        }
-    }
-
-    function appendChordTones($row, key, chordType)
-    {
-        var chord = new mcalc.Chord(key, chordType);
-        var tones = chord.tones();
         var $cell = $row.find(".tones");
-        
-        $row.find(".name").text(chord.toString());
 
         for (var i=0; i < tones.length; i++)
         {
             appendKeyLink(tones[i], $cell);
         }
+
+        $row.find(".piano").sparkpiano({ keys: tones, root: root });
+    }
+
+    function appendChordTones($row, key, chordType)
+    {
+        var chord = new mcalc.Chord(key, chordType);
+        appendTones($row, chord.tones(), chord.key);
+        $row.find(".name").text(chord.toString());
+    }
+
+    // major scale
+    {
+        var scale = mcalc.computeScale(key, mcalc.scale.Major);
+        appendTones($("#scale-major"), scale, scale[0]);
     }
 
     {
@@ -135,8 +136,9 @@
 
         for (var i=0; i < chords.length; i++)
         {
-            var $cell = $($row.find("td")[i + 1]);
-            appendKeyLink(chords[i].key, $cell, chords[i].toString());
+            var $cell = $($row.children("td")[i + 1]);
+            appendKeyLink(chords[i].key, $cell.find(".chord"), chords[i].toString());
+            $cell.find(".piano").sparkpiano({ keys: chords[i].tones(), root: chords[i].key });
         }
     }
 
