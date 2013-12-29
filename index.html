@@ -2,10 +2,122 @@
 <html>
 <head>
   <title>mcalc - the music calculator</title>
+  <script src="mcalc.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <style>
+
+  html, body {
+    font-family: Helvetica;
+    font-size: 10pt;
+  }
+
+  .title {
+    font-size: 18pt;
+    font-weight: bold;
+  }
+
+  .title select {
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 2px;
+    border-width: 0;
+    -webkit-appearance: none;
+  }
+
+  th, td {
+    padding: 5px;
+  }
+
+  .key-link {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    padding: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 1px;
+    text-decoration: none;
+  }
+
+  .key-link.white {
+    background-color: white;
+    color: black;
+  }
+
+  .key-link.black {
+    background-color: black;
+    color: white;
+  }
+
+  </style>
 </head>
 <body>
-  <form action="javascript:void(0);">
+  <form id="form" action="" method="get">
+    <p class="title">
+      Key: 
+      <select id="key" name="key">
+        <option value="C">C</option>
+        <option value="Cs">C#/Db</option>
+        <option value="D">D</option>
+        <option value="Ds">D#/Eb</option>
+        <option value="E">E</option>
+        <option value="F">F</option>
+        <option value="Fs">F#/Gb</option>
+        <option value="G">G</option>
+        <option value="Gs">G#/Ab</option>
+        <option value="A">A</option>
+        <option value="As">A#/Bb</option>
+        <option value="B">B</option>
+      </select>
+    </p>
   </form>
-  <script src="mcalc.js"></script>
+  <p>
+    <table border="1">
+      <tr>
+        <th>Major Scale</th>
+        <td id="scale-major"></td>
+      </tr>
+      <tr id="chord-major">
+        <th><span class="name"></span> (major)</th>
+        <td class="tones"></td>
+      </tr>
+      <tr id="chord-minor">
+        <th><span class="name"></span></th>
+        <td class="tones"></td>
+      </tr>
+      <tr id="chord-dim">
+        <th><span class="name"></span></th>
+        <td class="tones"></td>
+      </tr>
+      <tr id="chord-aug">
+        <th><span class="name"></span></th>
+        <td class="tones"></td>
+      </tr>
+    </table>
+  </p>
+  <p>
+    <table border="1">
+      <tr>
+        <th>Chords</th>
+        <th>I</th>
+        <th>ii</th>
+        <th>iii</th>
+        <th>IV</th>
+        <th>V</th>
+        <th>vi</th>
+        <th>vii</th>
+      </tr>
+      <tr id="chords-diatonic">
+        <td>Diatonic</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+  </p>
+  <script src="default.js"></script>
 </body>
 </html>

@@ -277,6 +277,42 @@ var mcalc = (function(mcalc) {
     };
 
     /**
+     Compute the diatonic chords in a key
+     @param {number} key - @see mcalc.key
+     @param {string} scaleType - @see mcalc.scale
+     @returns {mcalc.Chord[]}
+     */
+    mcalc.computeDiatonicChords = function(key, scaleType)
+    {
+        var scale = mcalc.computeScale(key, scaleType);
+        var chords = [];
+
+        if (scaleType == mcalc.scale.Major)
+        {
+            // I
+            chords.push(new mcalc.Chord(scale[0], mcalc.chord.Major));
+            // ii
+            chords.push(new mcalc.Chord(scale[1], mcalc.chord.Minor));
+            // iii
+            chords.push(new mcalc.Chord(scale[2], mcalc.chord.Minor));
+            // IV
+            chords.push(new mcalc.Chord(scale[3], mcalc.chord.Major));
+            // V
+            chords.push(new mcalc.Chord(scale[4], mcalc.chord.Major));
+            // vi
+            chords.push(new mcalc.Chord(scale[5], mcalc.chord.Minor));
+            // vii (dim)
+            chords.push(new mcalc.Chord(scale[6], mcalc.chord.Dim));
+        }
+        else
+        {
+            throw "unsupported scale type";
+        }
+
+        return chords;
+    };
+
+    /**
      * Represents a chord
      * @constructor
      */
