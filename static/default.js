@@ -101,6 +101,12 @@
         appendTones($("#scale-major"), scale, scale[0]);
     }
 
+    // minor scale
+    {
+        var scale = mcalc.computeScale(key, mcalc.scale.Minor);
+        appendTones($("#scale-minor"), scale, scale[0]);
+    }
+
     {
         // major chord
         appendChordTones($("#chord-major"), key, mcalc.chord.Major);
@@ -136,7 +142,7 @@
 
         for (var i=0; i < chords.length; i++)
         {
-            var $cell = $($row.children("td")[i + 1]);
+            var $cell = $($row.children("td")[i]);
             appendKeyLink(chords[i].key, $cell.find(".chord"), chords[i].toString());
             $cell.find(".piano").sparkpiano({ keys: chords[i].tones(), root: chords[i].key });
         }

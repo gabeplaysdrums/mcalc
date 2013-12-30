@@ -113,7 +113,10 @@ var mcalc = (function(mcalc) {
      * @enum {string}
      */
     mcalc.scale = {
-        Major: "Major"
+        /** major scale */
+        Major: "Major",
+        /** natural minor scale */
+        Minor: "Minor"
     };
 
     /**
@@ -176,36 +179,49 @@ var mcalc = (function(mcalc) {
 
         if (scaleType == mcalc.scale.Major)
         {
-            // i
+            // tonic
             scale.push(key);
     
-            // ii
+            // second
             key += 2;
             scale.push(normKey(key));
     
-            // iii
+            // third
             key += 2;
             scale.push(normKey(key));
     
-            // iv
+            // fourth
             key += 1;
             scale.push(normKey(key));
     
-            // v
+            // fifth
             key += 2;
             scale.push(normKey(key));
     
-            // vi
+            // sixth
             key += 2;
             scale.push(normKey(key));
     
-            // vii
+            // seventh
             key += 2;
             scale.push(normKey(key));
     
-            // viii (octave)
+            // eighth (octave)
             key += 1;
             scale.push(normKey(key));
+        }
+        else if (scaleType == mcalc.scale.Minor)
+        {
+            scale = mcalc.computeScale(key, mcalc.scale.Major);
+
+            // lowered third
+            scale[2] = normKey(scale[2] - 1);
+
+            // lowered sixth
+            scale[5] = normKey(scale[5] - 1);
+
+            // lowered seventh
+            scale[6] = normKey(scale[6] - 1);
         }
         else
         {
