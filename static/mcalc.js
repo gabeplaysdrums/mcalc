@@ -386,6 +386,40 @@ var mcalc = (function(mcalc) {
             // vii (dim)
             chords.push(new mcalc.Chord(scale[6], mcalc.chord.Minor7Flat5));
         }
+        else if (scaleType == mcalc.scale.Minor && !sevenths)
+        {
+            // i
+            chords.push(new mcalc.Chord(scale[0], mcalc.chord.Minor));
+            // ii (dim)
+            chords.push(new mcalc.Chord(scale[1], mcalc.chord.Dim));
+            // III
+            chords.push(new mcalc.Chord(scale[2], mcalc.chord.Major));
+            // iv
+            chords.push(new mcalc.Chord(scale[3], mcalc.chord.Minor));
+            // v
+            chords.push(new mcalc.Chord(scale[4], mcalc.chord.Minor));
+            // VI
+            chords.push(new mcalc.Chord(scale[5], mcalc.chord.Major));
+            // VII
+            chords.push(new mcalc.Chord(scale[6], mcalc.chord.Major));
+        }
+        else if (scaleType == mcalc.scale.Minor && sevenths)
+        {
+            // i
+            chords.push(new mcalc.Chord(scale[0], mcalc.chord.Minor7));
+            // ii (dim)
+            chords.push(new mcalc.Chord(scale[1], mcalc.chord.Minor7Flat5));
+            // III
+            chords.push(new mcalc.Chord(scale[2], mcalc.chord.Major7));
+            // iv
+            chords.push(new mcalc.Chord(scale[3], mcalc.chord.Minor7));
+            // v
+            chords.push(new mcalc.Chord(scale[4], mcalc.chord.Minor7));
+            // VI
+            chords.push(new mcalc.Chord(scale[5], mcalc.chord.Major7));
+            // VII
+            chords.push(new mcalc.Chord(scale[6], mcalc.chord.Dom7));
+        }
         else
         {
             throw "unsupported arguments";

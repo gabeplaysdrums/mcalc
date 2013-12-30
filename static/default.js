@@ -156,6 +156,8 @@
     {
         appendDiatonicChords($("#diatonic-chords-major"), key, mcalc.scale.Major, false);
         appendDiatonicChords($("#diatonic-chords-major7"), key, mcalc.scale.Major, true);
+        appendDiatonicChords($("#diatonic-chords-minor"), key, mcalc.scale.Minor, false);
+        appendDiatonicChords($("#diatonic-chords-minor7"), key, mcalc.scale.Minor, true);
     }
 
 })();
