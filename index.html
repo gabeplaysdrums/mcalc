@@ -55,13 +55,17 @@
     background-color: lightyellow;
   }
 
-  #chords td {
+  #diatonic-chords td {
     text-align: center;
   }
 
   .piano {
     padding: 2px;
     padding-bottom: 0;
+  }
+
+  #chords th {
+    width: 75px;
   }
 
   </style>
@@ -87,66 +91,49 @@
     </p>
   </form>
   <p>
-    <table id="tones" border="1">
-      <tr id="scale-major">
-        <th class="name">Major Scale</th>
-        <td class="piano"></td>
-        <td class="tones"></td>
+    <table id="scales" border="1">
+      <tr>
+        <th class="scale-major name">Major Scale</th>
+        <td class="scale-major piano"></td>
+        <td class="scale-major tones"></td>
       </tr>
-      <tr id="scale-minor">
-        <th class="name">Minor Scale</th>
-        <td class="piano"></td>
-        <td class="tones"></td>
-      </tr>
-      <tr id="chord-major">
-        <th><span class="name"></span> (major)</th>
-        <td class="piano"></td>
-        <td class="tones"></td>
-      </tr>
-      <tr id="chord-minor">
-        <th><span class="name"></span></th>
-        <td class="piano"></td>
-        <td class="tones"></td>
-      </tr>
-      <tr id="chord-dim">
-        <th><span class="name"></span></th>
-        <td class="piano"></td>
-        <td class="tones"></td>
-      </tr>
-      <tr id="chord-aug">
-        <th><span class="name"></span></th>
-        <td class="piano"></td>
-        <td class="tones"></td>
-      </tr>
-      <tr id="chord-major7">
-        <th><span class="name"></span></th>
-        <td class="piano"></td>
-        <td class="tones"></td>
-      </tr>
-      <tr id="chord-minor7">
-        <th><span class="name"></span></th>
-        <td class="piano"></td>
-        <td class="tones"></td>
-      </tr>
-      <tr id="chord-dom7">
-        <th><span class="name"></span></th>
-        <td class="piano"></td>
-        <td class="tones"></td>
-      </tr>
-      <tr id="chord-minor7flat5">
-        <th><span class="name"></span></th>
-        <td class="piano"></td>
-        <td class="tones"></td>
-      </tr>
-      <tr id="chord-dim7">
-        <th><span class="name"></span></th>
-        <td class="piano"></td>
-        <td class="tones"></td>
+      <tr>
+        <th class="scale-minor name">Minor Scale</th>
+        <td class="scale-minor piano"></td>
+        <td class="scale-minor tones"></td>
       </tr>
     </table>
   </p>
   <p>
     <table id="chords" border="1">
+      <tr>
+        <th><span class="chord-major name"></span> (major)</th>
+        <td class="chord-major piano"></td>
+        <th class="chord-minor name"></th>
+        <td class="chord-minor piano"></td>
+        <th class="chord-dim name"></th>
+        <td class="chord-dim piano"></td>
+      </tr>
+      <tr>
+        <th class="chord-major7 name"></th>
+        <td class="chord-major7 piano"></td>
+        <th class="chord-minor7 name"></th>
+        <td class="chord-minor7 piano"></td>
+        <th class="chord-minor7flat5 name"></th>
+        <td class="chord-minor7flat5 piano"></td>
+      </tr>
+      <tr>
+        <th class="chord-dom7 name"></th>
+        <td class="chord-dom7 piano"></td>
+        <th class="chord-aug name"></th>
+        <td class="chord-aug piano"></td>
+        <th class="chord-dim7 name"></th>
+        <td class="chord-dim7 piano"></td>
+      </tr>
+    </table>
+  </p>
+  <p>
+    <table id="diatonic-chords" border="1">
       <tr>
         <th rowspan="3">Major<br/>Diatonic<br/>Chords</th>
         <th class="highlight">I</th>
@@ -157,7 +144,7 @@
         <th>vi</th>
         <th>vii</th>
       </tr>
-      <tr id="chords-diatonic">
+      <tr id="diatonic-chords-major">
         <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
@@ -166,7 +153,7 @@
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
       </tr>
-      <tr id="chords-diatonic7">
+      <tr id="diatonic-chords-major7">
         <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>

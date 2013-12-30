@@ -76,64 +76,68 @@
 
     var key = formValueToKey($("#key").val());
 
-    function appendTones($row, tones, root)
+    function appendTones(className, tones, root)
     {
-        var $cell = $row.find(".tones");
+        var $cell = $("." + className + ".tones");
 
-        for (var i=0; i < tones.length; i++)
+        if ($cell.length > 0)
         {
-            appendKeyLink(tones[i], $cell);
+            for (var i=0; i < tones.length; i++)
+            {
+                appendKeyLink(tones[i], $cell);
+            }
         }
 
-        $row.find(".piano").sparkpiano({ keys: tones, root: root });
+        $("." + className + ".piano")
+            .sparkpiano({ keys: tones, root: root });
     }
 
-    function appendChordTones($row, key, chordType)
+    function appendChordTones(className, key, chordType)
     {
         var chord = new mcalc.Chord(key, chordType);
-        appendTones($row, chord.tones(), chord.key);
-        $row.find(".name").text(chord.toString());
+        appendTones(className, chord.tones(), chord.key);
+        $("." + className + ".name").text(chord.toString());
     }
 
     // major scale
     {
         var scale = mcalc.computeScale(key, mcalc.scale.Major);
-        appendTones($("#scale-major"), scale, scale[0]);
+        appendTones("scale-major", scale, scale[0]);
     }
 
     // minor scale
     {
         var scale = mcalc.computeScale(key, mcalc.scale.Minor);
-        appendTones($("#scale-minor"), scale, scale[0]);
+        appendTones("scale-minor", scale, scale[0]);
     }
 
     {
         // major chord
-        appendChordTones($("#chord-major"), key, mcalc.chord.Major);
+        appendChordTones("chord-major", key, mcalc.chord.Major);
 
         // minor chord
-        appendChordTones($("#chord-minor"), key, mcalc.chord.Minor);
+        appendChordTones("chord-minor", key, mcalc.chord.Minor);
 
         // diminished chord
-        appendChordTones($("#chord-dim"), key, mcalc.chord.Dim);
-
-        // augmented chord
-        appendChordTones($("#chord-aug"), key, mcalc.chord.Aug);
+        appendChordTones("chord-dim", key, mcalc.chord.Dim);
 
         // major 7th chord
-        appendChordTones($("#chord-major7"), key, mcalc.chord.Major7);
+        appendChordTones("chord-major7", key, mcalc.chord.Major7);
 
         // minor 7th chord
-        appendChordTones($("#chord-minor7"), key, mcalc.chord.Minor7);
-
-        // dominant 7th chord
-        appendChordTones($("#chord-dom7"), key, mcalc.chord.Dom7);
+        appendChordTones("chord-minor7", key, mcalc.chord.Minor7);
 
         // half diminished 7th chord
-        appendChordTones($("#chord-minor7flat5"), key, mcalc.chord.Minor7Flat5);
+        appendChordTones("chord-minor7flat5", key, mcalc.chord.Minor7Flat5);
+
+        // dominant 7th chord
+        appendChordTones("chord-dom7", key, mcalc.chord.Dom7);
+
+        // augmented chord
+        appendChordTones("chord-aug", key, mcalc.chord.Aug);
 
         // fully diminished 7th chord
-        appendChordTones($("#chord-dim7"), key, mcalc.chord.Dim7);
+        appendChordTones("chord-dim7", key, mcalc.chord.Dim7);
     }
 
     function appendDiatonicChords($row, key, scaleType, sevenths)
@@ -150,8 +154,8 @@
 
     // diatonic chords
     {
-        appendDiatonicChords($("#chords-diatonic"), key, mcalc.scale.Major, false);
-        appendDiatonicChords($("#chords-diatonic7"), key, mcalc.scale.Major, true);
+        appendDiatonicChords($("#diatonic-chords-major"), key, mcalc.scale.Major, false);
+        appendDiatonicChords($("#diatonic-chords-major7"), key, mcalc.scale.Major, true);
     }
 
 })();
