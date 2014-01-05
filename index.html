@@ -59,11 +59,11 @@
     background-color: white;
   }
 
-  .highlight {
+  .bold {
     background-color: lightyellow;
   }
 
-  .minor .highlight {
+  .minor .bold {
     background-color: lightskyblue;
   }
 
@@ -129,6 +129,15 @@
     border-width: 0;
   }
 
+  .highlight {
+    background-color: yellow !important;
+  }
+
+  .dimmed {
+    opacity: 0.3 !important;
+    color: gray !important;
+  }
+
   </style>
 </head>
 <body>
@@ -168,7 +177,7 @@
   <p>
     <table id="chords" border="1">
       <tr>
-        <th><span class="chord-major name three-tones"></span> (major)</th>
+        <th class="chord-major name major three-tones"></th>
         <td class="chord-major piano major three-tones"></td>
         <th class="chord-major7 name major four-tones"></th>
         <td class="chord-major7 piano major four-tones"></td>
@@ -267,84 +276,84 @@
       </tr>
       <tr>
         <th rowspan="6">Major<br/>Diatonic<br/>Chords</th>
-        <th class="highlight">I</th>
+        <th class="bold">I</th>
         <th>ii</th>
         <th>iii</th>
-        <th class="highlight">IV</th>
-        <th class="highlight">V</th>
+        <th class="bold">IV</th>
+        <th class="bold">V</th>
         <th class="relative-key" title="Relative minor key">vi</th>
         <th>vii</th>
       </tr>
       <tr id="diatonic-chords-major">
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
       </tr>
       <tr id="diatonic-chords-major7">
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
       </tr>
       <tr id="diatonic-chords-major9">
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
       </tr>
       <tr id="diatonic-chords-major11">
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
       </tr>
       <tr id="diatonic-chords-major13">
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
       </tr>
       <tr class="minor">
         <th rowspan="3">Minor<br/>Diatonic<br/>Chords</th>
-        <th class="highlight">i</th>
+        <th class="bold">i</th>
         <th>ii</th>
         <th class="relative-key" title="Relative major key">III</th>
-        <th class="highlight">iv</th>
-        <th class="highlight">v</th>
+        <th class="bold">iv</th>
+        <th class="bold">v</th>
         <th>VI</th>
         <th>VII</th>
       </tr>
       <tr id="diatonic-chords-minor" class="minor">
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
       </tr>
       <tr id="diatonic-chords-minor7" class="minor">
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
-        <td class="highlight"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
+        <td class="bold"><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
         <td><div class="chord"></div><div class="piano"></div></td>
       </tr>

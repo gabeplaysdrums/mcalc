@@ -76,6 +76,28 @@
 
     var key = formValueToKey($("#key").val());
 
+    function toggleHighlight($elem)
+    {
+        $elem.toggleClass("highlight");
+        $table = $elem.parents("table");
+        $others = $table
+            .children("tbody")
+            .children("tr")
+            .children("th, td")
+            .not(".highlight");
+
+        $table.find(".dimmed").removeClass("dimmed");
+        
+        if ($table.find(".highlight").length > 0)
+        {
+            $others.addClass("dimmed");
+        }
+        else
+        {
+            $others.removeClass("dimmed");
+        }
+    }
+
     function appendTones(className, tones, root)
     {
         var $cell = $("." + className + ".tones");
@@ -98,6 +120,9 @@
         var chord = new mcalc.Chord(key, chordType);
         appendTones(className, chord.tones(), chord.key);
         $("." + className + ".name").text(chord.toString());
+        $("." + className).click(function() {
+            toggleHighlight($("." + className));
+        });
     }
 
     // major scale
@@ -205,6 +230,10 @@
                 $cell.find(".piano")
                     .sparkpiano({ keys: chords[i].tones(), root: chords[i].key })
                     .attr("title", mcalc.keysToString(chords[i].tones()));
+
+                $cell.click(function() {
+                    toggleHighlight($(this));
+                });
             }
         }
     }
