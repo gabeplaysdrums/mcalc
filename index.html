@@ -75,6 +75,18 @@
     background-color: lightgreen;
   }
 
+  .three-tones {
+    color: black;
+  }
+
+  .four-tones {
+    color: darkblue;
+  }
+
+  .five-tones {
+    color: darkgreen;
+  }
+
   #diatonic-chords td {
     text-align: center;
   }
@@ -86,6 +98,10 @@
 
   #chords th {
     width: 75px;
+  }
+
+  #chords td {
+    width: 85px;
   }
 
   .chords-legend {
@@ -131,48 +147,58 @@
   <p>
     <table id="chords" border="1">
       <tr>
-        <th><span class="chord-major name"></span> (major)</th>
-        <td class="chord-major piano major"></td>
-        <th class="chord-major7 name major"></th>
-        <td class="chord-major7 piano major"></td>
-        <th class="chord-dom7 name major"></th>
-        <td class="chord-dom7 piano major"></td>
+        <th><span class="chord-major name three-tones"></span> (major)</th>
+        <td class="chord-major piano major three-tones"></td>
+        <th class="chord-major7 name major four-tones"></th>
+        <td class="chord-major7 piano major four-tones"></td>
+        <th class="chord-dom7 name major four-tones"></th>
+        <td class="chord-dom7 piano major four-tones"></td>
       </tr>
       <tr>
-        <th class="chord-major2 name major"></th>
-        <td class="chord-major2 piano major"></td>
-        <th class="chord-majorsus2 name major"></th>
-        <td class="chord-majorsus2 piano major"></td>
-        <th class="chord-major6 name major"></th>
-        <td class="chord-major6 piano major"></td>
-        <th class="chord-majoradd9 name major"></th>
-        <td class="chord-majoradd9 piano major"></td>
+        <th class="chord-major2 name major four-tones"></th>
+        <td class="chord-major2 piano major four-tones"></td>
+        <th class="chord-majorsus2 name major three-tones"></th>
+        <td class="chord-majorsus2 piano major three-tones"></td>
+        <th class="chord-major6 name major four-tones"></th>
+        <td class="chord-major6 piano major four-tones"></td>
       </tr>
       <tr>
-        <th class="chord-minor name minor"></th>
-        <td class="chord-minor piano minor"></td>
-        <th class="chord-minor7 name minor"></th>
-        <td class="chord-minor7 piano minor"></td>
-        <th class="chord-aug name aug"></th>
-        <td class="chord-aug piano aug"></td>
+        <th class="chord-majoradd9 name major four-tones"></th>
+        <td class="chord-majoradd9 piano major four-tones"></td>
+        <th class="chord-major9 name major five-tones"></th>
+        <td class="chord-major9 piano major five-tones"></td>
+        <th class="chord-dom9 name major five-tones"></th>
+        <td class="chord-dom9 piano major five-tones"></td>
       </tr>
       <tr>
-        <th class="chord-minor2 name minor"></th>
-        <td class="chord-minor2 piano minor"></td>
-        <th class="chord-minor4 name minor"></th>
-        <td class="chord-minor4 piano minor"></td>
-        <th class="chord-minor6 name minor"></th>
-        <td class="chord-minor6 piano minor"></td>
-        <th class="chord-minoradd9 name minor"></th>
-        <td class="chord-minoradd9 piano minor"></td>
+        <th class="chord-minor name minor three-tones"></th>
+        <td class="chord-minor piano minor three-tones"></td>
+        <th class="chord-minor7 name minor four-tones"></th>
+        <td class="chord-minor7 piano minor four-tones"></td>
+        <th class="chord-aug name aug three-tones"></th>
+        <td class="chord-aug piano aug three-tones"></td>
       </tr>
       <tr>
-        <th class="chord-dim name dim"></th>
-        <td class="chord-dim piano dim"></td>
-        <th class="chord-minor7flat5 name dim"></th>
-        <td class="chord-minor7flat5 piano dim"></td>
-        <th class="chord-dim7 name dim"></th>
-        <td class="chord-dim7 piano dim"></td>
+        <th class="chord-minor2 name minor four-tones"></th>
+        <td class="chord-minor2 piano minor four-tones"></td>
+        <th class="chord-minor4 name minor four-tones"></th>
+        <td class="chord-minor4 piano minor four-tones"></td>
+        <th class="chord-minor6 name minor four-tones"></th>
+        <td class="chord-minor6 piano minor four-tones"></td>
+      </tr>
+      <tr>
+        <th class="chord-minoradd9 name minor four-tones"></th>
+        <td class="chord-minoradd9 piano minor four-tones"></td>
+        <th class="chord-minor9 name minor five-tones"></th>
+        <td class="chord-minor9 piano minor five-tones"></td>
+      </tr>
+      <tr>
+        <th class="chord-dim name dim three-tones"></th>
+        <td class="chord-dim piano dim three-tones"></td>
+        <th class="chord-minor7flat5 name dim four-tones"></th>
+        <td class="chord-minor7flat5 piano dim four-tones"></td>
+        <th class="chord-dim7 name dim four-tones"></th>
+        <td class="chord-dim7 piano dim four-tones"></td>
       </tr>
     </table>
   </p>
@@ -182,7 +208,10 @@
     <span class="major">major triad</span>, 
     <span class="minor">minor triad</span>, 
     <span class="dim">diminished triad</span>, 
-    <span class="aug">augmented triad</span> 
+    <span class="aug">augmented triad</span>; 
+    <span class="three-tones">three tones</span>, 
+    <span class="four-tones">four tones</span>, 
+    <span class="five-tones">five tones</span> 
     )
   </p>
   <p>

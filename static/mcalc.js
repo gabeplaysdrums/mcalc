@@ -161,6 +161,12 @@ var mcalc = (function(mcalc) {
         Major6: "Major6",
         /** minor 6th */
         Minor6: "Minor6",
+        /** major 9th */
+        Major9: "Major9",
+        /** dominant 9th */
+        Dom9: "Dom9",
+        /** minor 9th */
+        Minor9: "Minor9",
     };
 
     /** 
@@ -441,6 +447,21 @@ var mcalc = (function(mcalc) {
             // vi flat (minor sixth)
             chord.push(normKey(scale[5] - 1));
         }
+        else if (chordType == mcalc.chord.Major9)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.Major7);
+            chord.push(scale[1]);
+        }
+        else if (chordType == mcalc.chord.Dom9)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.Dom7);
+            chord.push(scale[1]);
+        }
+        else if (chordType == mcalc.chord.Minor9)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.Minor7);
+            chord.push(scale[1]);
+        }
         else
         {
             throw "unknown chord type";
@@ -628,6 +649,18 @@ var mcalc = (function(mcalc) {
             else if (self.chordType == mcalc.chord.Minor6)
             {
                 return "m6";
+            }
+            else if (self.chordType == mcalc.chord.Major9)
+            {
+                return "maj9";
+            }
+            else if (self.chordType == mcalc.chord.Dom9)
+            {
+                return "9";
+            }
+            else if (self.chordType == mcalc.chord.Minor9)
+            {
+                return "m9";
             }
 
             return null;
