@@ -217,6 +217,8 @@
             key, mcalc.scale.Major, mcalc.chordComplexity.Seventh);
         appendDiatonicChords($("#diatonic-chords-major9"), 
             key, mcalc.scale.Major, mcalc.chordComplexity.Ninth);
+        appendDiatonicChords($("#diatonic-chords-major11"), 
+            key, mcalc.scale.Major, mcalc.chordComplexity.Eleventh);
         appendDiatonicChords($("#diatonic-chords-minor"), 
             key, mcalc.scale.Minor, mcalc.chordComplexity.Triad);
         appendDiatonicChords($("#diatonic-chords-minor7"), 
