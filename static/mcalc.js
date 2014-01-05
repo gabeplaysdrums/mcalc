@@ -191,6 +191,7 @@ var mcalc = (function(mcalc) {
         Seventh: "Seventh",
         Ninth: "Ninth",
         Eleventh: "Eleventh",
+        Thirteenth: "Thirteenth",
     };
 
     /** 
@@ -663,6 +664,23 @@ var mcalc = (function(mcalc) {
             chords.push(new mcalc.Chord(scale[4], mcalc.chord.Dom11));
             // vi
             chords.push(new mcalc.Chord(scale[5], mcalc.chord.Minor11));
+            // Vii (dim)
+            chords.push(null);
+        }
+        else if (scaleType == mcalc.scale.Major && complexity == mcalc.chordComplexity.Thirteenth)
+        {
+            // I
+            chords.push(null);
+            // ii
+            chords.push(null);
+            // iii
+            chords.push(null);
+            // IV
+            chords.push(null);
+            // V (dom)
+            chords.push(new mcalc.Chord(scale[4], mcalc.chord.Dom13));
+            // vi
+            chords.push(null);
             // Vii (dim)
             chords.push(null);
         }
