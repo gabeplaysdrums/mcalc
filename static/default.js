@@ -89,7 +89,8 @@
         }
 
         $("." + className + ".piano")
-            .sparkpiano({ keys: tones, root: root });
+            .sparkpiano({ keys: tones, root: root })
+            .attr("title", mcalc.keysToString(tones));
     }
 
     function appendChordTones(className, key, chordType)
@@ -148,7 +149,9 @@
         {
             var $cell = $($row.children("td")[i]);
             appendKeyLink(chords[i].key, $cell.find(".chord"), chords[i].toString());
-            $cell.find(".piano").sparkpiano({ keys: chords[i].tones(), root: chords[i].key });
+            $cell.find(".piano")
+                .sparkpiano({ keys: chords[i].tones(), root: chords[i].key })
+                .attr("title", mcalc.keysToString(chords[i].tones()));
         }
     }
 
@@ -158,6 +161,19 @@
         appendDiatonicChords($("#diatonic-chords-major7"), key, mcalc.scale.Major, true);
         appendDiatonicChords($("#diatonic-chords-minor"), key, mcalc.scale.Minor, false);
         appendDiatonicChords($("#diatonic-chords-minor7"), key, mcalc.scale.Minor, true);
+    }
+
+    // piano test
+    {
+        $("#piano-test").sparkpiano({
+            keys: [
+                mcalc.key.C,
+                mcalc.key.E,
+                mcalc.key.G,
+                mcalc.key.D
+            ],
+            root: mcalc.key.C
+        })
     }
 
 })();

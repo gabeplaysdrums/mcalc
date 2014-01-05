@@ -52,38 +52,71 @@
         "B":  11
     };
 
+    var colors = [
+        "blue",
+        "orange",
+        "yellow",
+        "green",
+    ];
+
+    function normKey(k)
+    {
+        while (k < 0)
+        {
+            k += 12;
+        }
+
+        while (k > 12)
+        {
+            k -= 12;
+        }
+
+        return k;
+    }
+
     $.widget('mcalc.sparkpiano', {
 
         options: {
             keys: [],
-            root: null
+            root: key.C
         },
 
         _create: function()
         {
             this.element.html(Markup);
 
+            var lastKey = null;
+            var currColorIndex = 0;
+
             for (var i=0; i < this.options.keys.length; i++)
             {
+                var currKey = this.options.keys[i];
+
+                // change the color for each new octave
+                if (lastKey != null && 
+                    (normKey(lastKey - this.options.root) == 0 ||
+                    normKey(currKey - this.options.root) < normKey(lastKey - this.options.root)))
+                {
+                    currColorIndex++;
+                }
+
+                lastKey = currKey;
+
+                // don't overwrite the color of the root key
+                if (i > 0 && currKey == this.options.root)
+                {
+                    continue;
+                }
+
                 for (var k in key)
                 {
-                    if (key[k] == this.options.keys[i])
+                    if (key[k] == currKey)
                     {
-                        this.element.find(".sparkpiano-key-" + k).css("background-color", "orange");
+                        this.element.find(".sparkpiano-key-" + k).css("background-color", colors[currColorIndex]);
                         break;
                     }
                 }
             }
-
-            for (var k in key)
-            {
-                if (key[k] == this.options.root)
-                {
-                    this.element.find(".sparkpiano-key-" + k).css("background-color", "blue");
-                    break;
-                }
-            }
-
         }
 
     });

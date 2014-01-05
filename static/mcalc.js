@@ -245,7 +245,7 @@ var mcalc = (function(mcalc) {
             temp.push(mcalc.keyToString(keys[i]));
         }
 
-        return temp.join(" ");
+        return temp.join(", ");
     };
 
     /**
