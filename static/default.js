@@ -157,6 +157,12 @@
 
         // minor added 9th chord
         appendChordTones("chord-minoradd9", key, mcalc.chord.MinorAdd9);
+
+        // major 6th chord
+        appendChordTones("chord-major6", key, mcalc.chord.Major6);
+
+        // minor 6th chord
+        appendChordTones("chord-minor6", key, mcalc.chord.Minor6);
     }
 
     function appendDiatonicChords($row, key, scaleType, sevenths)
