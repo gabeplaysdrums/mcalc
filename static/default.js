@@ -192,26 +192,35 @@
         appendChordTones("chord-dom13sharp11", key, mcalc.chord.Dom13Sharp11);
     }
 
-    function appendDiatonicChords($row, key, scaleType, sevenths)
+    function appendDiatonicChords($row, key, scaleType, complexity)
     {
-        var chords = mcalc.computeDiatonicChords(key, scaleType, sevenths);
+        var chords = mcalc.computeDiatonicChords(key, scaleType, complexity);
 
         for (var i=0; i < chords.length; i++)
         {
-            var $cell = $($row.children("td")[i]);
-            appendKeyLink(chords[i].key, $cell.find(".chord"), chords[i].toString());
-            $cell.find(".piano")
-                .sparkpiano({ keys: chords[i].tones(), root: chords[i].key })
-                .attr("title", mcalc.keysToString(chords[i].tones()));
+            if (chords[i] != null)
+            {
+                var $cell = $($row.children("td")[i]);
+                appendKeyLink(chords[i].key, $cell.find(".chord"), chords[i].toString());
+                $cell.find(".piano")
+                    .sparkpiano({ keys: chords[i].tones(), root: chords[i].key })
+                    .attr("title", mcalc.keysToString(chords[i].tones()));
+            }
         }
     }
 
     // diatonic chords
     {
-        appendDiatonicChords($("#diatonic-chords-major"), key, mcalc.scale.Major, false);
-        appendDiatonicChords($("#diatonic-chords-major7"), key, mcalc.scale.Major, true);
-        appendDiatonicChords($("#diatonic-chords-minor"), key, mcalc.scale.Minor, false);
-        appendDiatonicChords($("#diatonic-chords-minor7"), key, mcalc.scale.Minor, true);
+        appendDiatonicChords($("#diatonic-chords-major"), 
+            key, mcalc.scale.Major, mcalc.chordComplexity.Triad);
+        appendDiatonicChords($("#diatonic-chords-major7"), 
+            key, mcalc.scale.Major, mcalc.chordComplexity.Seventh);
+        appendDiatonicChords($("#diatonic-chords-major9"), 
+            key, mcalc.scale.Major, mcalc.chordComplexity.Ninth);
+        appendDiatonicChords($("#diatonic-chords-minor"), 
+            key, mcalc.scale.Minor, mcalc.chordComplexity.Triad);
+        appendDiatonicChords($("#diatonic-chords-minor7"), 
+            key, mcalc.scale.Minor, mcalc.chordComplexity.Seventh);
     }
 
 })();

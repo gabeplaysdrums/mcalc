@@ -181,6 +181,17 @@ var mcalc = (function(mcalc) {
         Dom13Sharp11: "Dom13Sharp11",
     };
 
+    /**
+     * Chord complexity enum
+     * @readonly
+     * @enum {string}
+     */
+    mcalc.chordComplexity = {
+        Triad: "Triad",
+        Seventh: "Seventh",
+        Ninth: "Ninth",
+    };
+
     /** 
      * Convert key value to string
      * @param {number} key - @see mcalc.key
@@ -539,19 +550,20 @@ var mcalc = (function(mcalc) {
      Compute the diatonic chords in a key
      @param {number} key - @see mcalc.key
      @param {string} scaleType - @see mcalc.scale
+     @param {string} complexity - @see mcalc.chordComplexity
      @returns {mcalc.Chord[]}
      */
-    mcalc.computeDiatonicChords = function(key, scaleType, sevenths)
+    mcalc.computeDiatonicChords = function(key, scaleType, complexity)
     {
-        if (sevenths === undefined)
+        if (complexity === undefined)
         {
-            sevenths = false;
+            complexity = mcalc.chordComplexity.Triad;
         }
 
         var scale = mcalc.computeScale(key, scaleType);
         var chords = [];
 
-        if (scaleType == mcalc.scale.Major && !sevenths)
+        if (scaleType == mcalc.scale.Major && complexity == mcalc.chordComplexity.Triad)
         {
             // I
             chords.push(new mcalc.Chord(scale[0], mcalc.chord.Major));
@@ -568,7 +580,7 @@ var mcalc = (function(mcalc) {
             // vii (dim)
             chords.push(new mcalc.Chord(scale[6], mcalc.chord.Dim));
         }
-        else if (scaleType == mcalc.scale.Major && sevenths)
+        else if (scaleType == mcalc.scale.Major && complexity == mcalc.chordComplexity.Seventh)
         {
             // I
             chords.push(new mcalc.Chord(scale[0], mcalc.chord.Major7));
@@ -585,7 +597,7 @@ var mcalc = (function(mcalc) {
             // vii (dim)
             chords.push(new mcalc.Chord(scale[6], mcalc.chord.Minor7Flat5));
         }
-        else if (scaleType == mcalc.scale.Minor && !sevenths)
+        else if (scaleType == mcalc.scale.Minor && complexity == mcalc.chordComplexity.Triad)
         {
             // i
             chords.push(new mcalc.Chord(scale[0], mcalc.chord.Minor));
@@ -602,7 +614,7 @@ var mcalc = (function(mcalc) {
             // VII
             chords.push(new mcalc.Chord(scale[6], mcalc.chord.Major));
         }
-        else if (scaleType == mcalc.scale.Minor && sevenths)
+        else if (scaleType == mcalc.scale.Minor && complexity == mcalc.chordComplexity.Seventh)
         {
             // i
             chords.push(new mcalc.Chord(scale[0], mcalc.chord.Minor7));
@@ -618,6 +630,23 @@ var mcalc = (function(mcalc) {
             chords.push(new mcalc.Chord(scale[5], mcalc.chord.Major7));
             // VII
             chords.push(new mcalc.Chord(scale[6], mcalc.chord.Dom7));
+        }
+        else if (scaleType == mcalc.scale.Major && complexity == mcalc.chordComplexity.Ninth)
+        {
+            // I
+            chords.push(new mcalc.Chord(scale[0], mcalc.chord.Major9));
+            // ii
+            chords.push(new mcalc.Chord(scale[1], mcalc.chord.Minor9));
+            // iii
+            chords.push(null);
+            // IV
+            chords.push(new mcalc.Chord(scale[3], mcalc.chord.Major9));
+            // V (dom)
+            chords.push(new mcalc.Chord(scale[4], mcalc.chord.Dom9));
+            // vi
+            chords.push(new mcalc.Chord(scale[5], mcalc.chord.Minor9));
+            // Vii (dim)
+            chords.push(null);
         }
         else
         {
