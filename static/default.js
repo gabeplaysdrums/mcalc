@@ -181,6 +181,15 @@
 
         // dominant #11 chord
         appendChordTones("chord-dom7sharp11", key, mcalc.chord.Dom7Sharp11);
+
+        // dominant 13th chord
+        appendChordTones("chord-dom13", key, mcalc.chord.Dom13);
+
+        // dominant 11th (add 13) chord
+        appendChordTones("chord-dom11add13", key, mcalc.chord.Dom11Add13);
+
+        // dominant #11 13th chord
+        appendChordTones("chord-dom13sharp11", key, mcalc.chord.Dom13Sharp11);
     }
 
     function appendDiatonicChords($row, key, scaleType, sevenths)
