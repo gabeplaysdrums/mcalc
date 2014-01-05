@@ -142,7 +142,19 @@ var mcalc = (function(mcalc) {
         /** half-diminished seventh (minor 7, flat 5) */
         Minor7Flat5: "Minor7Flat5",
         /** fully-diminished seventh */
-        Dim7: "Dim7"
+        Dim7: "Dim7",
+        /** major 2nd (add 2) */
+        Major2: "Major2",
+        /** major suspended 2nd (sus 2) */
+        MajorSus2: "MajorSus2",
+        /** major with added 9th */
+        MajorAdd9: "MajorAdd9",
+        /** minor 2nd (add 2) */
+        Minor2: "Minor2",
+        /** minor suspended 2nd (sus 2) */
+        MinorSus2: "MinorSus2",
+        /** minor with added 9th */
+        MinorAdd9: "MinorAdd9",
     };
 
     /** 
@@ -328,6 +340,59 @@ var mcalc = (function(mcalc) {
             chord = mcalc.computeChord(key, mcalc.chord.Minor);
             chord.push(normKey(scale[6] - 2));
         }
+        else if (chordType == mcalc.chord.Major2)
+        {
+            // i
+            chord.push(scale[0]);
+
+            // ii
+            chord.push(scale[1]);
+
+            // iii (major third)
+            chord.push(scale[2]);
+
+            // v
+            chord.push(scale[4]);
+        }
+        else if (chordType == mcalc.chord.MajorSus2)
+        {
+            // i
+            chord.push(scale[0]);
+
+            // ii
+            chord.push(scale[1]);
+
+            // v
+            chord.push(scale[4]);
+        }
+        else if (chordType == mcalc.chord.MajorAdd9)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.Major);
+            chord.push(scale[1]);
+        }
+        else if (chordType == mcalc.chord.Minor2)
+        {
+            // i
+            chord.push(scale[0]);
+
+            // ii
+            chord.push(scale[1]);
+
+            // iii flat (minor third)
+            chord.push(normKey(scale[2] - 1));
+
+            // v
+            chord.push(scale[4]);
+        }
+        else if (chordType == mcalc.chord.MinorSus2)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.MajorSus2)
+        }
+        else if (chordType == mcalc.chord.MinorAdd9)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.Minor);
+            chord.push(scale[1]);
+        }
         else
         {
             throw "unknown chord type";
@@ -479,6 +544,30 @@ var mcalc = (function(mcalc) {
             else if (self.chordType == mcalc.chord.Dim7)
             {
                 return "dim7";
+            }
+            else if (self.chordType == mcalc.chord.Major2)
+            {
+                return "2";
+            }
+            else if (self.chordType == mcalc.chord.MajorSus2)
+            {
+                return "sus2";
+            }
+            else if (self.chordType == mcalc.chord.MajorAdd9)
+            {
+                return "add9";
+            }
+            else if (self.chordType == mcalc.chord.Minor2)
+            {
+                return "m2";
+            }
+            else if (self.chordType == mcalc.chord.MinorSus2)
+            {
+                return "m sus2";
+            }
+            else if (self.chordType == mcalc.chord.MinorAdd9)
+            {
+                return "m add9";
             }
 
             return null;

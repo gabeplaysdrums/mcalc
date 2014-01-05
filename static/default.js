@@ -139,6 +139,24 @@
 
         // fully diminished 7th chord
         appendChordTones("chord-dim7", key, mcalc.chord.Dim7);
+
+        // major 2nd chord
+        appendChordTones("chord-major2", key, mcalc.chord.Major2);
+
+        // major 2nd suspended chord
+        appendChordTones("chord-majorsus2", key, mcalc.chord.MajorSus2);
+
+        // major added 9th chord
+        appendChordTones("chord-majoradd9", key, mcalc.chord.MajorAdd9);
+
+        // minor 2nd chord
+        appendChordTones("chord-minor2", key, mcalc.chord.Minor2);
+
+        // minor 2nd suspended chord
+        appendChordTones("chord-minorsus2", key, mcalc.chord.MinorSus2);
+
+        // minor added 9th chord
+        appendChordTones("chord-minoradd9", key, mcalc.chord.MinorAdd9);
     }
 
     function appendDiatonicChords($row, key, scaleType, sevenths)
@@ -161,19 +179,6 @@
         appendDiatonicChords($("#diatonic-chords-major7"), key, mcalc.scale.Major, true);
         appendDiatonicChords($("#diatonic-chords-minor"), key, mcalc.scale.Minor, false);
         appendDiatonicChords($("#diatonic-chords-minor7"), key, mcalc.scale.Minor, true);
-    }
-
-    // piano test
-    {
-        $("#piano-test").sparkpiano({
-            keys: [
-                mcalc.key.C,
-                mcalc.key.E,
-                mcalc.key.G,
-                mcalc.key.D
-            ],
-            root: mcalc.key.C
-        })
     }
 
 })();
