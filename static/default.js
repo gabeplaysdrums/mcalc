@@ -152,8 +152,8 @@
         // minor 2nd chord
         appendChordTones("chord-minor2", key, mcalc.chord.Minor2);
 
-        // minor 2nd suspended chord
-        appendChordTones("chord-minorsus2", key, mcalc.chord.MinorSus2);
+        // minor 4th chord
+        appendChordTones("chord-minor4", key, mcalc.chord.Minor4);
 
         // minor added 9th chord
         appendChordTones("chord-minoradd9", key, mcalc.chord.MinorAdd9);

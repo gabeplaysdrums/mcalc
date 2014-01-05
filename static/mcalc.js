@@ -155,6 +155,8 @@ var mcalc = (function(mcalc) {
         MinorSus2: "MinorSus2",
         /** minor with added 9th */
         MinorAdd9: "MinorAdd9",
+        /** minor 4th */
+        Minor4: "Minor4",
     };
 
     /** 
@@ -332,12 +334,12 @@ var mcalc = (function(mcalc) {
         }
         else if (chordType == mcalc.chord.Minor7Flat5)
         {
-            chord = mcalc.computeChord(key, mcalc.chord.Minor);
+            chord = mcalc.computeChord(key, mcalc.chord.Dim);
             chord.push(normKey(scale[6] - 1));
         }
         else if (chordType == mcalc.chord.Dim7)
         {
-            chord = mcalc.computeChord(key, mcalc.chord.Minor);
+            chord = mcalc.computeChord(key, mcalc.chord.Dim);
             chord.push(normKey(scale[6] - 2));
         }
         else if (chordType == mcalc.chord.Major2)
@@ -392,6 +394,20 @@ var mcalc = (function(mcalc) {
         {
             chord = mcalc.computeChord(key, mcalc.chord.Minor);
             chord.push(scale[1]);
+        }
+        else if (chordType == mcalc.chord.Minor4)
+        {
+            // i
+            chord.push(scale[0]);
+
+            // iii flat (minor third)
+            chord.push(normKey(scale[2] - 1));
+
+            // iv
+            chord.push(scale[3]);
+
+            // v
+            chord.push(scale[4]);
         }
         else
         {
@@ -568,6 +584,10 @@ var mcalc = (function(mcalc) {
             else if (self.chordType == mcalc.chord.MinorAdd9)
             {
                 return "m add9";
+            }
+            else if (self.chordType == mcalc.chord.Minor4)
+            {
+                return "m4";
             }
 
             return null;
