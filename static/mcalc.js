@@ -167,6 +167,12 @@ var mcalc = (function(mcalc) {
         Dom9: "Dom9",
         /** minor 9th */
         Minor9: "Minor9",
+        /** dominant 11th */
+        Dom11: "Dom11",
+        /** minor 11th */
+        Minor11: "Minor11",
+        /** dominant #11 (dominant 7, sharp 11) */
+        Dom7Sharp11: "Dom7Sharp11",
     };
 
     /** 
@@ -462,6 +468,38 @@ var mcalc = (function(mcalc) {
             chord = mcalc.computeChord(key, mcalc.chord.Minor7);
             chord.push(scale[1]);
         }
+        else if (chordType == mcalc.chord.Dom11)
+        {
+            // i
+            chord.push(scale[0]);
+
+            // iii
+            // no third
+
+            // v
+            chord.push(scale[4]);
+
+            // vii (dominant 7th)
+            chord.push(normKey(scale[6] - 1));
+
+            // ix (9th)
+            chord.push(scale[1]);
+
+            // xi (11th)
+            chord.push(scale[3]);
+        }
+        else if (chordType == mcalc.chord.Minor11)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.Minor9);
+            chord.push(scale[3]);
+        }
+        else if (chordType == mcalc.chord.Dom7Sharp11)
+        {
+            chord = mcalc.computeChord(key, mcalc.chord.Dom9);
+
+            // xi sharp (#11)
+            chord.push(normKey(scale[3] + 1))
+        }
         else
         {
             throw "unknown chord type";
@@ -661,6 +699,18 @@ var mcalc = (function(mcalc) {
             else if (self.chordType == mcalc.chord.Minor9)
             {
                 return "m9";
+            }
+            else if (self.chordType == mcalc.chord.Dom11)
+            {
+                return "11";
+            }
+            else if (self.chordType == mcalc.chord.Minor11)
+            {
+                return "m11";
+            }
+            else if (self.chordType == mcalc.chord.Dom7Sharp11)
+            {
+                return "7(#11)";
             }
 
             return null;

@@ -56,7 +56,7 @@
         "blue",
         "orange",
         "yellow",
-        "green",
+        "darkgreen",
     ];
 
     function normKey(k)
