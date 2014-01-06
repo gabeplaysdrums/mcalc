@@ -98,15 +98,40 @@
         }
     }
 
-    function playTones(tones, rakeMillis)
+    function playTones(tones, rakeMillis, noteSeconds)
     {
+        var style = $("#playback-style").val();
+
         if (rakeMillis === undefined)
         {
-            rakeMillis = 0;
+            switch (style)
+            {
+                case "rake":
+                    rakeMillis = 100;
+                    break;
+                default:
+                    rakeMillis = 0;
+            }
         }
 
+        if (noteSeconds === undefined)
+        {
+            switch (style)
+            {
+                case "legato":
+                    noteSeconds = 3;
+                    break;
+                case "rake":
+                    noteSeconds = 1;
+                    break;
+                default:
+                    noteSeconds = 0.5;
+            }
+        }
+
+
         var sounds = [];
-        var offset = 0;
+        var offset = parseInt($("#playback-octave").val()) * 12;
         var lastKey = null;
 
         for (var i=0; i < tones.length; i++)
@@ -118,7 +143,7 @@
                 offset += 12;
             }
 
-            sounds.push(window.Notes.getCachedSound(currKey + offset));
+            sounds.push(window.Notes.getCachedSound(currKey + offset, { seconds: noteSeconds }));
             lastKey = currKey;
         }
 
@@ -134,7 +159,7 @@
         }
     }
 
-    function appendTones(className, tones, root, rakeMillis)
+    function appendTones(className, tones, root, rakeMillis, noteSeconds)
     {
         var $cell = $("." + className + ".tones");
 
@@ -151,7 +176,7 @@
             .attr("title", mcalc.keysToString(tones))
             .prop("tones", tones)
             .click(function() { 
-                playTones($(this).prop("tones"), rakeMillis); 
+                playTones($(this).prop("tones"), rakeMillis, noteSeconds); 
                 return false;
             });
     }
@@ -170,13 +195,13 @@
     // major scale
     {
         var scale = mcalc.computeScale(key, mcalc.scale.Major);
-        appendTones("scale-major", scale, scale[0], 500);
+        appendTones("scale-major", scale, scale[0], 500, 0.5);
     }
 
     // minor scale
     {
         var scale = mcalc.computeScale(key, mcalc.scale.Minor);
-        appendTones("scale-minor", scale, scale[0], 500);
+        appendTones("scale-minor", scale, scale[0], 500, 0.5);
     }
 
     {
