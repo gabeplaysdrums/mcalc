@@ -30,7 +30,6 @@
 
         $("#playback-octave option[value='0']").attr("selected", true);
         $("#playback-style option[value='normal']").attr("selected", true);
-        $("#playback-search option[value='on']").attr("selected", true);
         $(".piano").sparkpiano("resetInversion");
 
     });
@@ -154,6 +153,11 @@
 
     function playTones(tones, inversion, rakeMillis, noteSeconds)
     {
+        if ($("#playback-mute").val() == "on")
+        {
+            return;
+        }
+
         var style = $("#playback-style").val();
 
         if (inversion === undefined)
@@ -539,11 +543,16 @@
         {
             $pianos.sparkpiano("keyon", key);
 
-            var sound = getPlayablePianoSound(key);
-            sound.play();
-
             pianoKeysOn[keyToIdString(key)] = true;
             updateSearchSpotlight();
+
+            if ($("#playback-mute").val() == "on")
+            {
+                return;
+            }
+
+            var sound = getPlayablePianoSound(key);
+            sound.play();
         }
 
         switch (event.keyCode)
@@ -562,6 +571,9 @@
                 break;
             case 86: // v
                 selectDelta($("#playback-style"), 1, true);
+                break;
+            case 77: // m
+                selectDelta($("#playback-mute"), 1, true);
                 break;
             case 13: // return
 
@@ -649,12 +661,17 @@
         {
             $pianos.sparkpiano("keyoff", key);
 
+            delete pianoKeysOn[keyToIdString(key)];
+            updateSearchSpotlight();
+
+            if ($("#playback-mute").val() == "on")
+            {
+                return;
+            }
+
             var sound = getPlayablePianoSound(key);
             sound.pause();
             sound.currentTime = 0;
-
-            delete pianoKeysOn[keyToIdString(key)];
-            updateSearchSpotlight();
         }
 
         switch (event.keyCode)
