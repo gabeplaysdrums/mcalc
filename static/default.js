@@ -30,6 +30,7 @@
 
         $("#playback-octave option[value='0']").attr("selected", true);
         $("#playback-style option[value='normal']").attr("selected", true);
+        $("#playback-search option[value='on']").attr("selected", true);
         $(".piano").sparkpiano("resetInversion");
 
     });
@@ -455,6 +456,11 @@
 
     function updateSearchSpotlight()
     {
+        if ($("#playback-search").val() != "on")
+        {
+            return;
+        }
+
         $(".search-highlight").removeClass("search-highlight");
 
         var selector = "";
@@ -558,6 +564,12 @@
                 selectDelta($("#playback-style"), 1, true);
                 break;
             case 13: // return
+
+                if ($("#playback-search").val() != "on")
+                {
+                    break;
+                }
+
                 if (event.shiftKey || event.ctrlKey || event.altKey)
                 {
                     $(".highlight").not(".search-highlight").removeClass("highlight");
