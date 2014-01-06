@@ -36,7 +36,7 @@
 
 })();
 
-// calculate
+// main
 (function() {
 
     var altKeyDown = false;
@@ -86,19 +86,22 @@
 
     var key = formValueToKey($("#key").val());
 
-    function toggleHighlight($elem)
+    function updateSpotlight($table, className, dimAllIfNoMatches)
     {
-        $elem.toggleClass("highlight");
-        $table = $elem.parents("table");
-        $others = $table
+        if (dimAllIfNoMatches === undefined)
+        {
+            dimAllIfNoMatches = false;
+        }
+
+        var $others = $table
             .children("tbody")
             .children("tr")
             .children("th, td")
-            .not(".highlight");
+            .not("." + className);
 
         $table.find(".dimmed").removeClass("dimmed");
         
-        if ($table.find(".highlight").length > 0)
+        if (dimAllIfNoMatches || $table.find("." + className).length > 0)
         {
             $others.addClass("dimmed");
         }
@@ -106,6 +109,19 @@
         {
             $others.removeClass("dimmed");
         }
+    }
+
+    function toggleHighlight($elem)
+    {
+        $elem.toggleClass("highlight");
+        var $table = $elem.parents("table");
+
+        if ($table.find(".search-highlight").length > 0)
+        {
+            return;
+        }
+
+        updateSpotlight($table, "highlight");
     }
 
     function playTones(tones, inversion, rakeMillis, noteSeconds)
@@ -173,6 +189,32 @@
         }
     }
 
+    function setupPiano($piano, tones, rakeMillis, noteSeconds)
+    {
+        $piano
+            .sparkpiano({ keys: tones })
+            .attr("title", mcalc.keysToString(tones));
+        $piano.find("table")
+            .prop("tones", tones)
+            .click(function(event) {
+
+                if (altKeyDown)
+                {
+                    $piano.sparkpiano("nextInversion");
+                }
+                else
+                {
+                    playTones(
+                        $(this).prop("tones"),
+                        $piano.sparkpiano("inversion"),
+                        rakeMillis,
+                        noteSeconds); 
+                }
+
+                return false;
+            });
+    }
+
     function appendTones(className, tones, rakeMillis, noteSeconds)
     {
         var $cell = $("." + className + ".tones");
@@ -185,27 +227,7 @@
             }
         }
 
-        $("." + className + ".piano")
-            .sparkpiano({ keys: tones })
-            .attr("title", mcalc.keysToString(tones))
-            .prop("tones", tones)
-            .click(function() { 
-
-                if (altKeyDown)
-                {
-                    $(this).sparkpiano("nextInversion");
-                }
-                else
-                {
-                    playTones(
-                        $(this).prop("tones"), 
-                        $(this).sparkpiano("inversion"), 
-                        rakeMillis, 
-                        noteSeconds); 
-                }
-
-                return false;
-            });
+        setupPiano($("." + className + ".piano"), tones, rakeMillis, noteSeconds)
     }
 
     function appendChordTones(className, key, chordType)
@@ -213,10 +235,13 @@
         var chord = new mcalc.Chord(key, chordType);
         appendTones(className, chord.tones());
         $("." + className + ".name").text(chord.toString());
+
         $("." + className + ".name").click(function() {
             toggleHighlight($("." + className));
             return false;
         });
+
+        addToneClasses($("." + className), chord.tones());
     }
 
     // major scale
@@ -311,6 +336,42 @@
         appendChordTones("chord-dom13sharp11", key, mcalc.chord.Dom13Sharp11);
     }
 
+    function normKey(key)
+    {
+        while (key < 0)
+        {
+            key += 12;
+        }
+
+        while (key >= 12)
+        {
+            key -= 12;
+        }
+
+        return key;
+    }
+
+    function keyToIdString(key)
+    {
+        for (var k in mcalc.key)
+        {
+            if (mcalc.key[k] == normKey(key))
+            {
+                return k;
+            }
+        }
+
+        return null;
+    }
+
+    function addToneClasses($elem, tones)
+    {
+        for (var i=0; i < tones.length; i++)
+        {
+            $elem.addClass("tone-" + keyToIdString(tones[i]));
+        }
+    }
+
     function appendDiatonicChords($row, key, scaleType, complexity)
     {
         var chords = mcalc.computeDiatonicChords(key, scaleType, complexity);
@@ -326,37 +387,14 @@
             else
             {
                 appendKeyLink(chords[i].key, $cell.find(".chord"), chords[i].toString());
-
-                // play tones when spark piano is clicked
-                (function($piano, tones) {
-
-                    $piano
-                        .sparkpiano({ keys: tones })
-                        .attr("title", mcalc.keysToString(tones));
-                    $piano.find("table")
-                        .prop("tones", tones)
-                        .click(function(event) {
-
-                            if (altKeyDown)
-                            {
-                                $piano.sparkpiano("nextInversion");
-                            }
-                            else
-                            {
-                                playTones(
-                                    $(this).prop("tones"),
-                                    $piano.sparkpiano("inversion")); 
-                            }
-
-                            return false;
-                        });
-
-                })($cell.find(".piano"), chords[i].tones());
+                setupPiano($cell.find(".piano"), chords[i].tones());
 
                 $cell.click(function() {
                     toggleHighlight($(this));
                     return false;
                 });
+
+                addToneClasses($cell, chords[i].tones());
             }
         }
     }
@@ -384,6 +422,35 @@
         return window.Notes.getCachedSound(
             parseInt($("#playback-octave").val()) * 12 + key,
             { seconds: 3 });
+    }
+
+    var pianoKeysOn = {};
+
+    function updateSearchSpotlight()
+    {
+        $(".search-highlight").removeClass("search-highlight");
+
+        var selector = "";
+        var count = 0;
+
+        for (k in pianoKeysOn)
+        {
+            selector += ".tone-" + k;
+            count++;
+        }
+
+        var $found = $(selector).addClass("search-highlight");
+
+        if (count > 0)
+        {
+            updateSpotlight($("#chords"), "search-highlight", true);
+            updateSpotlight($("#diatonic-chords"), "search-highlight", true);
+        }
+        else
+        {
+            updateSpotlight($("#chords"), "highlight");
+            updateSpotlight($("#diatonic-chords"), "highlight");
+        }
     }
 
     // keyboard controls
@@ -441,6 +508,9 @@
 
             var sound = getPlayablePianoSound(key);
             sound.play();
+
+            pianoKeysOn[keyToIdString(key)] = true;
+            updateSearchSpotlight();
         }
 
         switch (event.keyCode)
@@ -459,6 +529,20 @@
                 break;
             case 86: // v
                 selectDelta($("#playback-style"), 1, true);
+                break;
+            case 13: // return
+                if (event.shiftKey || event.ctrlKey || event.altKey)
+                {
+                    $(".highlight").not(".search-highlight").removeClass("highlight");
+                }
+
+                if (!(event.ctrlKey || event.altKey))
+                {
+                    $(".search-highlight").addClass("highlight");
+                }
+
+                updateSearchSpotlight();
+
                 break;
             case 65:  // a (C)
                 keyon(mcalc.key.C);
@@ -529,6 +613,9 @@
             var sound = getPlayablePianoSound(key);
             sound.pause();
             sound.currentTime = 0;
+
+            delete pianoKeysOn[keyToIdString(key)];
+            updateSearchSpotlight();
         }
 
         switch (event.keyCode)
