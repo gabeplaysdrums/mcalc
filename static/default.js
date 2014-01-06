@@ -34,6 +34,33 @@
 
     });
 
+    $("#playback-help").click(function() {
+
+        var help = [
+            "Keyboard Shortcuts:",
+            "===================",
+            "octave down / up = z,x",
+            "style previous / next = c,v",
+            "",
+            "playable piano keys = \n\ta,w,s,e,d,f,g,t,g,y,h,u,j,k,o,l,p,;,'",
+            "",
+            "next inversion = <alt> + <click>",
+            "",
+            "highlight current search results = \n\t<return>",
+            "highlight only current search results = \n\t<shift> + <return>",
+            "highlight only highlighted current search results (intersection) = \n\t<ctrl> + <return> or <alt> + <return>",
+            "",
+            "Piano Legend:",
+            "===================",
+            "blue = bass note (the root of the chord by default)",
+            "orange = notes in the first octave",
+            "yellow = notes in the second octave",
+            "red = currently playing note",
+        ];
+
+        window.alert(help.join("\n"));
+    });
+
 })();
 
 // main
