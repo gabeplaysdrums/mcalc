@@ -98,7 +98,43 @@
         }
     }
 
-    function appendTones(className, tones, root)
+    function playTones(tones, rakeMillis)
+    {
+        if (rakeMillis === undefined)
+        {
+            rakeMillis = 0;
+        }
+
+        var sounds = [];
+        var offset = 0;
+        var lastKey = null;
+
+        for (var i=0; i < tones.length; i++)
+        {
+            var currKey = tones[i];
+
+            if (lastKey != null && currKey < lastKey)
+            {
+                offset += 12;
+            }
+
+            sounds.push(window.Notes.getCachedSound(currKey + offset));
+            lastKey = currKey;
+        }
+
+        for (var i=0; i < sounds.length; i++)
+        {
+            (function(sound) {
+
+                window.setTimeout(
+                    function(){ sound.play(); },
+                    i * rakeMillis);
+
+            })(sounds[i]);
+        }
+    }
+
+    function appendTones(className, tones, root, rakeMillis)
     {
         var $cell = $("." + className + ".tones");
 
@@ -112,7 +148,12 @@
 
         $("." + className + ".piano")
             .sparkpiano({ keys: tones, root: root })
-            .attr("title", mcalc.keysToString(tones));
+            .attr("title", mcalc.keysToString(tones))
+            .prop("tones", tones)
+            .click(function() { 
+                playTones($(this).prop("tones"), rakeMillis); 
+                return false;
+            });
     }
 
     function appendChordTones(className, key, chordType)
@@ -120,21 +161,22 @@
         var chord = new mcalc.Chord(key, chordType);
         appendTones(className, chord.tones(), chord.key);
         $("." + className + ".name").text(chord.toString());
-        $("." + className).click(function() {
+        $("." + className + ".name").click(function() {
             toggleHighlight($("." + className));
+            return false;
         });
     }
 
     // major scale
     {
         var scale = mcalc.computeScale(key, mcalc.scale.Major);
-        appendTones("scale-major", scale, scale[0]);
+        appendTones("scale-major", scale, scale[0], 500);
     }
 
     // minor scale
     {
         var scale = mcalc.computeScale(key, mcalc.scale.Minor);
-        appendTones("scale-minor", scale, scale[0]);
+        appendTones("scale-minor", scale, scale[0], 500);
     }
 
     {
@@ -227,12 +269,22 @@
             {
                 var $cell = $($row.children("td")[i]);
                 appendKeyLink(chords[i].key, $cell.find(".chord"), chords[i].toString());
+                var tones = chords[i].tones();
                 $cell.find(".piano")
-                    .sparkpiano({ keys: chords[i].tones(), root: chords[i].key })
-                    .attr("title", mcalc.keysToString(chords[i].tones()));
+                    .sparkpiano({ keys: tones, root: chords[i].key })
+                    .attr("title", mcalc.keysToString(tones));
+
+                // play tones when spark piano is clicked
+                $cell.find(".piano table")
+                    .prop("tones", tones)
+                    .click(function() {
+                        playTones($(this).prop("tones")); 
+                        return false;
+                    });
 
                 $cell.click(function() {
                     toggleHighlight($(this));
+                    return false;
                 });
             }
         }
