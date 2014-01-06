@@ -290,9 +290,14 @@
 
         for (var i=0; i < chords.length; i++)
         {
-            if (chords[i] != null)
+            var $cell = $($row.children("td")[i]);
+
+            if (chords[i] == null)
             {
-                var $cell = $($row.children("td")[i]);
+                $cell.empty();
+            }
+            else
+            {
                 appendKeyLink(chords[i].key, $cell.find(".chord"), chords[i].toString());
                 var tones = chords[i].tones();
                 $cell.find(".piano")
@@ -331,6 +336,13 @@
             key, mcalc.scale.Minor, mcalc.chordComplexity.Triad);
         appendDiatonicChords($("#diatonic-chords-minor7"), 
             key, mcalc.scale.Minor, mcalc.chordComplexity.Seventh);
+    }
+
+    function getPlayablePianoSound(key)
+    {
+        return window.Notes.getCachedSound(
+            parseInt($("#playback-octave").val()) * 12 + key,
+            { seconds: 3 });
     }
 
     // keyboard controls
@@ -380,6 +392,16 @@
             $select.prop("selectedIndex", index);
         }
 
+        var $pianos = $(".piano");
+
+        function keyon(key)
+        {
+            $pianos.sparkpiano("keyon", key);
+
+            var sound = getPlayablePianoSound(key);
+            sound.play();
+        }
+
         switch (event.keyCode)
         {
             case 90: // z
@@ -393,6 +415,133 @@
                 break;
             case 86: // v
                 selectDelta($("#playback-style"), 1, true);
+                break;
+            case 65:  // a (C)
+                keyon(mcalc.key.C);
+                break;
+            case 87:  // w (C#/Db)
+                keyon(mcalc.key.Cs);
+                break;
+            case 83:  // s (D)
+                keyon(mcalc.key.D);
+                break;
+            case 69:  // e (D#/Eb)
+                keyon(mcalc.key.Ds);
+                break;
+            case 68:  // d (E)
+                keyon(mcalc.key.E);
+                break;
+            case 70:  // f (F)
+                keyon(mcalc.key.F);
+                break;
+            case 84:  // t (F#/Gb)
+                keyon(mcalc.key.Fs);
+                break;
+            case 71:  // g (G)
+                keyon(mcalc.key.G);
+                break;
+            case 89:  // y (G#/Ab)
+                keyon(mcalc.key.Gs);
+                break;
+            case 72:  // h (A)
+                keyon(mcalc.key.A);
+                break;
+            case 85:  // u (A#/Bb)
+                keyon(mcalc.key.As);
+                break;
+            case 74:  // j (B)
+                keyon(mcalc.key.B);
+                break;
+            case 75:  // k (C)
+                keyon(mcalc.key.C + 12);
+                break;
+            case 79:  // o (C#/Db)
+                keyon(mcalc.key.Cs + 12);
+                break;
+            case 76:  // l (D)
+                keyon(mcalc.key.D + 12);
+                break;
+            case 80:  // p (D#/Eb)
+                keyon(mcalc.key.Ds + 12);
+                break;
+            case 186: // ; (E)
+                keyon(mcalc.key.E + 12);
+                break;
+            case 222: // ' (F)
+                keyon(mcalc.key.F + 12);
+                break;
+        }
+
+    });
+
+    $(window).keyup(function(event) {
+
+        var $pianos = $(".piano");
+
+        function keyoff(key)
+        {
+            $pianos.sparkpiano("keyoff", key);
+
+            var sound = getPlayablePianoSound(key);
+            sound.pause();
+            sound.currentTime = 0;
+        }
+
+        switch (event.keyCode)
+        {
+            case 65:  // a (C)
+                keyoff(mcalc.key.C);
+                break;
+            case 87:  // w (C#/Db)
+                keyoff(mcalc.key.Cs);
+                break;
+            case 83:  // s (D)
+                keyoff(mcalc.key.D);
+                break;
+            case 69:  // e (D#/Eb)
+                keyoff(mcalc.key.Ds);
+                break;
+            case 68:  // d (E)
+                keyoff(mcalc.key.E);
+                break;
+            case 70:  // f (F)
+                keyoff(mcalc.key.F);
+                break;
+            case 84:  // t (F#/Gb)
+                keyoff(mcalc.key.Fs);
+                break;
+            case 71:  // g (G)
+                keyoff(mcalc.key.G);
+                break;
+            case 89:  // y (G#/Ab)
+                keyoff(mcalc.key.Gs);
+                break;
+            case 72:  // h (A)
+                keyoff(mcalc.key.A);
+                break;
+            case 85:  // u (A#/Bb)
+                keyoff(mcalc.key.As);
+                break;
+            case 74:  // j (B)
+                keyoff(mcalc.key.B);
+                break;
+            case 75:  // k (C)
+                keyoff(mcalc.key.C + 12);
+                break;
+            case 79:  // o (C#/Db)
+                keyoff(mcalc.key.Cs + 12);
+                break;
+            case 76:  // l (D)
+                keyoff(mcalc.key.D + 12);
+                break;
+            case 80:  // p (D#/Eb)
+                keyoff(mcalc.key.Ds + 12);
+                break;
+            case 186: // ; (E)
+                keyoff(mcalc.key.E + 12);
+                break;
+            case 222: // ' (F)
+                keyoff(mcalc.key.F + 12);
                 break;
         }
 

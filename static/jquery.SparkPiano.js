@@ -66,12 +66,27 @@
             k += 12;
         }
 
-        while (k > 12)
+        while (k >= 12)
         {
             k -= 12;
         }
 
         return k;
+    }
+
+    function keyToString(key_)
+    {
+        key_ = normKey(key_);
+
+        for (k in key)
+        {
+            if (key[k] == key_)
+            {
+                return k;
+            }
+        }
+
+        return null;
     }
 
     $.widget('mcalc.sparkpiano', {
@@ -108,16 +123,25 @@
                     continue;
                 }
 
-                for (var k in key)
-                {
-                    if (key[k] == currKey)
-                    {
-                        this.element.find(".sparkpiano-key-" + k).css("background-color", colors[currColorIndex]);
-                        break;
-                    }
-                }
+                this.element
+                    .find(".sparkpiano-key-" + keyToString(currKey))
+                    .css("background-color", colors[currColorIndex]);
             }
-        }
+        },
+
+        keyon: function(key_)
+        {
+            this.element
+                .find(".sparkpiano-key-" + keyToString(key_))
+                .addClass("sparkpiano-keyon");
+        },
+
+        keyoff: function(key_)
+        {
+            this.element
+                .find(".sparkpiano-key-" + keyToString(key_))
+                .removeClass("sparkpiano-keyon");
+        },
 
     });
 

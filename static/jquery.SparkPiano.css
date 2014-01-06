@@ -34,3 +34,7 @@ table.sparkpiano td {
 }
 .sparkpiano-bottom td.sparkpiano-right, .sparkpiano-top td.sparkpiano-white.sparkpiano-right {
 }
+
+.sparkpiano-keyon {
+    background-color: red !important;
+}
