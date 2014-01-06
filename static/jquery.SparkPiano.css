@@ -35,6 +35,22 @@ table.sparkpiano td {
 .sparkpiano-bottom td.sparkpiano-right, .sparkpiano-top td.sparkpiano-white.sparkpiano-right {
 }
 
+.sparkpiano-octave-1 {
+    background-color: orange !important;
+}
+
+.sparkpiano-octave-2 {
+    background-color: yellow !important;
+}
+
+.sparkpiano-octave-3 {
+    background-color: darkgreen !important;
+}
+
+.sparkpiano-root {
+    background-color: blue !important;
+}
+
 .sparkpiano-keyon {
     background-color: red !important;
 }

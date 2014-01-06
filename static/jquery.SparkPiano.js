@@ -59,6 +59,12 @@
         "darkgreen",
     ];
 
+    var colorClassNames = [
+        "sparkpiano-octave-1",
+        "sparkpiano-octave-2",
+        "sparkpiano-octave-3"
+    ];
+
     function normKey(k)
     {
         while (k < 0)
@@ -93,40 +99,81 @@
 
         options: {
             keys: [],
-            root: key.C
+            inversion: 0
         },
 
         _create: function()
         {
             this.element.html(Markup);
+            this._recolor();
+        },
 
+        _recolor: function()
+        {
             var lastKey = null;
             var currColorIndex = 0;
 
+            var root = this.options.keys[this.options.inversion];
+
+            this.element.find(".sparkpiano-root").removeClass("sparkpiano-root");
+
+            for (var i=0; i < colorClassNames.length; i++)
+            {
+                this.element.find("." + colorClassNames[i]).removeClass(colorClassNames[i]);
+            }
+
+            this.element
+                .find(".sparkpiano-key-" + keyToString(root))
+                .addClass("sparkpiano-root");
+
             for (var i=0; i < this.options.keys.length; i++)
             {
-                var currKey = this.options.keys[i];
+                var currKey = this.options.keys[(i + this.options.inversion) % this.options.keys.length];
 
                 // change the color for each new octave
                 if (lastKey != null && 
-                    (normKey(lastKey - this.options.root) == 0 ||
-                    normKey(currKey - this.options.root) < normKey(lastKey - this.options.root)))
+                    normKey(currKey - root) < normKey(lastKey - root))
                 {
                     currColorIndex++;
                 }
 
                 lastKey = currKey;
 
+                /*
                 // don't overwrite the color of the root key
                 if (i > 0 && currKey == this.options.root)
                 {
                     continue;
                 }
+                */
 
                 this.element
                     .find(".sparkpiano-key-" + keyToString(currKey))
-                    .css("background-color", colors[currColorIndex]);
+                    .addClass(colorClassNames[currColorIndex]);
             }
+        },
+
+        inversion: function(value)
+        {
+            if (value !== undefined)
+            {
+                this.options.inversion = value % this.options.keys.length;
+                this._recolor();
+            }
+
+            return this.options.inversion;
+        },
+
+        resetInversion: function()
+        {
+            this.options.inversion = 0;
+            this._recolor();
+        },
+
+        nextInversion: function()
+        {
+            this.options.inversion = (this.options.inversion + 1) % this.options.keys.length;
+            this._recolor();
         },
 
         keyon: function(key_)

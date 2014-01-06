@@ -26,10 +26,20 @@
         $("#key option[value='" + window.query["key"] + "']").attr("selected", true);
     }
 
+    $("#playback-reset").click(function() {
+
+        $("#playback-octave option[value='0']").attr("selected", true);
+        $("#playback-style option[value='normal']").attr("selected", true);
+        $(".piano").sparkpiano("resetInversion");
+
+    });
+
 })();
 
 // calculate
 (function() {
+
+    var altKeyDown = false;
 
     function formValueToKey(k)
     {
@@ -98,9 +108,14 @@
         }
     }
 
-    function playTones(tones, rakeMillis, noteSeconds)
+    function playTones(tones, inversion, rakeMillis, noteSeconds)
     {
         var style = $("#playback-style").val();
+
+        if (inversion === undefined)
+        {
+            inversion = 0;
+        }
 
         if (rakeMillis === undefined)
         {
@@ -129,14 +144,13 @@
             }
         }
 
-
         var sounds = [];
         var offset = parseInt($("#playback-octave").val()) * 12;
         var lastKey = null;
 
         for (var i=0; i < tones.length; i++)
         {
-            var currKey = tones[i];
+            var currKey = tones[(inversion + i) % tones.length];
 
             if (lastKey != null && currKey < lastKey)
             {
@@ -159,7 +173,7 @@
         }
     }
 
-    function appendTones(className, tones, root, rakeMillis, noteSeconds)
+    function appendTones(className, tones, rakeMillis, noteSeconds)
     {
         var $cell = $("." + className + ".tones");
 
@@ -172,11 +186,24 @@
         }
 
         $("." + className + ".piano")
-            .sparkpiano({ keys: tones, root: root })
+            .sparkpiano({ keys: tones })
             .attr("title", mcalc.keysToString(tones))
             .prop("tones", tones)
             .click(function() { 
-                playTones($(this).prop("tones"), rakeMillis, noteSeconds); 
+
+                if (altKeyDown)
+                {
+                    $(this).sparkpiano("nextInversion");
+                }
+                else
+                {
+                    playTones(
+                        $(this).prop("tones"), 
+                        $(this).sparkpiano("inversion"), 
+                        rakeMillis, 
+                        noteSeconds); 
+                }
+
                 return false;
             });
     }
@@ -184,7 +211,7 @@
     function appendChordTones(className, key, chordType)
     {
         var chord = new mcalc.Chord(key, chordType);
-        appendTones(className, chord.tones(), chord.key);
+        appendTones(className, chord.tones());
         $("." + className + ".name").text(chord.toString());
         $("." + className + ".name").click(function() {
             toggleHighlight($("." + className));
@@ -195,13 +222,13 @@
     // major scale
     {
         var scale = mcalc.computeScale(key, mcalc.scale.Major);
-        appendTones("scale-major", scale, scale[0], 500, 0.5);
+        appendTones("scale-major", scale, 500, 0.5);
     }
 
     // minor scale
     {
         var scale = mcalc.computeScale(key, mcalc.scale.Minor);
-        appendTones("scale-minor", scale, scale[0], 500, 0.5);
+        appendTones("scale-minor", scale, 500, 0.5);
     }
 
     {
@@ -299,18 +326,32 @@
             else
             {
                 appendKeyLink(chords[i].key, $cell.find(".chord"), chords[i].toString());
-                var tones = chords[i].tones();
-                $cell.find(".piano")
-                    .sparkpiano({ keys: tones, root: chords[i].key })
-                    .attr("title", mcalc.keysToString(tones));
 
                 // play tones when spark piano is clicked
-                $cell.find(".piano table")
-                    .prop("tones", tones)
-                    .click(function() {
-                        playTones($(this).prop("tones")); 
-                        return false;
-                    });
+                (function($piano, tones) {
+
+                    $piano
+                        .sparkpiano({ keys: tones })
+                        .attr("title", mcalc.keysToString(tones));
+                    $piano.find("table")
+                        .prop("tones", tones)
+                        .click(function(event) {
+
+                            if (altKeyDown)
+                            {
+                                $piano.sparkpiano("nextInversion");
+                            }
+                            else
+                            {
+                                playTones(
+                                    $(this).prop("tones"),
+                                    $piano.sparkpiano("inversion")); 
+                            }
+
+                            return false;
+                        });
+
+                })($cell.find(".piano"), chords[i].tones());
 
                 $cell.click(function() {
                     toggleHighlight($(this));
@@ -404,6 +445,9 @@
 
         switch (event.keyCode)
         {
+            case 18: // alt
+                altKeyDown = true;
+                break;
             case 90: // z
                 selectDelta($("#playback-octave"), -1, false);
                 break;
@@ -489,6 +533,9 @@
 
         switch (event.keyCode)
         {
+            case 18: // alt
+                altKeyDown = false;
+                break;
             case 65:  // a (C)
                 keyoff(mcalc.key.C);
                 break;
