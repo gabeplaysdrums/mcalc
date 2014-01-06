@@ -333,4 +333,69 @@
             key, mcalc.scale.Minor, mcalc.chordComplexity.Seventh);
     }
 
+    // keyboard controls
+    $(window).keydown(function(event) {
+
+        function setOctave(n)
+        {
+            $("#playback-octave option[value=" + n + "]").attr("selected", true);
+        }
+
+        function getOctave(n)
+        {
+            return parseInt($("#playback-octave").val());
+        }
+
+        function selectDelta($select, delta, wrap)
+        {
+            var index = $select.prop("selectedIndex");
+            var options = $select.prop("options");
+
+            index += delta;
+
+            if (index < 0)
+            {
+                if (wrap)
+                {
+                    index = options.length + index;
+                }
+                else
+                {
+                    index = 0;
+                }
+            }
+
+            if (index >= options.length)
+            {
+                if (wrap)
+                {
+                    index = index % options.length;
+                }
+                else
+                {
+                    index = options.length - 1;
+                }
+            }
+
+            $select.prop("selectedIndex", index);
+        }
+
+        switch (event.keyCode)
+        {
+            case 90: // z
+                selectDelta($("#playback-octave"), -1, false);
+                break;
+            case 88: // x
+                selectDelta($("#playback-octave"), 1, false);
+                break;
+            case 67: // c
+                selectDelta($("#playback-style"), -1, true);
+                break;
+            case 86: // v
+                selectDelta($("#playback-style"), 1, true);
+                break;
+        }
+
+    });
+
 })();
