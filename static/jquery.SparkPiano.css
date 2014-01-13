@@ -10,6 +10,8 @@ table.sparkpiano td {
 
 .sparkpiano-top td { 
     width: 4.5px; 
+    min-width: 4.5px; 
+    max-width: 4.5px; 
     height: 20px;
 }
 .sparkpiano-top td.sparkpiano-white { 

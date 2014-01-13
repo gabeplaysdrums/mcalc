@@ -99,13 +99,30 @@
 
         options: {
             keys: [],
-            inversion: 0
+            inversion: 0,
+            keyClicked: null,
         },
 
         _create: function()
         {
             this.element.html(Markup);
             this._recolor();
+
+            if (this.options.keyClicked)
+            {
+                for (var i=0; i < this.options.keys.length; i++)
+                {
+                    var currKey = this.options.keys[(i + this.options.inversion) % this.options.keys.length];
+                    var $keyElem = this.element.find(".sparkpiano-key-" + keyToString(currKey));
+    
+                    (function(currKey, keyClicked) {
+                        $keyElem.click(function(event) {
+                            event.key = currKey;
+                            return keyClicked(event);
+                        });
+                    })(currKey, this.options.keyClicked);
+                }
+            }
         },
 
         _recolor: function()
@@ -139,29 +156,20 @@
 
                 lastKey = currKey;
 
-                /*
-                // don't overwrite the color of the root key
-                if (i > 0 && currKey == this.options.root)
-                {
-                    continue;
-                }
-                */
-
-                this.element
-                    .find(".sparkpiano-key-" + keyToString(currKey))
-                    .addClass(colorClassNames[currColorIndex]);
+                var $keyElem = this.element.find(".sparkpiano-key-" + keyToString(currKey));
+                $keyElem.addClass(colorClassNames[currColorIndex]);
             }
         },
 
         inversion: function(value)
         {
-            if (value !== undefined)
+            if (value === undefined)
             {
-                this.options.inversion = value % this.options.keys.length;
-                this._recolor();
+                return this.options.inversion;
             }
 
-            return this.options.inversion;
+            this.options.inversion = value % this.options.keys.length;
+            this._recolor();
         },
 
         resetInversion: function()

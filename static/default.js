@@ -224,7 +224,12 @@
     function setupPiano($piano, tones, rakeMillis, noteSeconds)
     {
         $piano
-            .sparkpiano({ keys: tones })
+            .sparkpiano({ 
+                keys: tones,
+                keyClicked: function(event) {
+                    console.log("key clicked: " + mcalc.keyToString(event.key));
+                }
+            })
             .attr("title", mcalc.keysToString(tones));
         $piano.find("table")
             .prop("tones", tones)
