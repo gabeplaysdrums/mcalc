@@ -101,6 +101,7 @@
             keys: [],
             inversion: 0,
             keyClicked: null,
+            voices: null,
         },
 
         _create: function()
@@ -112,15 +113,28 @@
             {
                 for (var i=0; i < this.options.keys.length; i++)
                 {
-                    var currKey = this.options.keys[(i + this.options.inversion) % this.options.keys.length];
+                    var currKeyIndex = (i + this.options.inversion) % this.options.keys.length;
+                    var currKey = this.options.keys[currKeyIndex];
                     var $keyElem = this.element.find(".sparkpiano-key-" + keyToString(currKey));
-    
-                    (function(currKey, keyClicked) {
+
+                    (function(self, currKey, keyIndex) {
                         $keyElem.click(function(event) {
-                            event.key = currKey;
-                            return keyClicked(event);
+                            event.pianoKey = currKey;
+                            event.pianoKeyIndex = keyIndex,
+                            event.pianoKeyIsRoot = keyIndex == self.options.inversion;
+                            return self.options.keyClicked(event);
                         });
-                    })(currKey, this.options.keyClicked);
+                    })(this, currKey, currKeyIndex);
+                }
+            }
+
+            if (!this.options.voices)
+            {
+                this.options.voices = [];
+
+                for (var i=0; i < this.options.keys.length; i++)
+                {
+                    this.options.voices.push(0);
                 }
             }
         },
@@ -148,7 +162,7 @@
                 var currKey = this.options.keys[(i + this.options.inversion) % this.options.keys.length];
 
                 // change the color for each new octave
-                if (lastKey != null && 
+                if (lastKey != null &&
                     normKey(currKey - root) < normKey(lastKey - root))
                 {
                     currColorIndex++;
@@ -196,6 +210,17 @@
             this.element
                 .find(".sparkpiano-key-" + keyToString(key_))
                 .removeClass("sparkpiano-keyon");
+        },
+
+        voice: function(keyIndex, value)
+        {
+            if (value === undefined)
+            {
+                return this.options.voices[keyIndex];
+            }
+
+            this.options.voices[keyIndex] = value;
+            this._recolor();
         },
 
     });
